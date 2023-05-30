@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+  <persistence-unit name="PayrollPU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>mod.model.Department</class>
+    <class>mod.model.Division</class>
+    <class>mod.model.SSS</class>
+    <class>mod.model.HDMF</class>
+    <class>mod.model.PHIC</class>
+    <class>mod.model.BIR</class>
+    <class>mod.model.Employer</class>
+    <class>mod.model.Employee</class>
+    <class>mod.model.Position</class>
+    <class>mod.model.Salary</class>
+    <class>mod.model.Biometric</class>
+    <class>mod.model.EmploymentType</class>
+    <class>mod.model.Section</class>
+    <class>mod.model.PayrollPeriod</class>
+    <class>mod.model.EmployeeDependent</class>
+    <class>mod.model.EmployeeLog</class>
+    <class>mod.model.Shift</class>
+    <class>mod.model.EmployeeShift</class>
+    <class>mod.model.Holiday</class>
+    <class>mod.model.YearHoliday</class>
+    <class>mod.model.LoanAgency</class>
+    <class>mod.model.LoanType</class>
+    <class>mod.model.EmployeeLoan</class>
+    <class>mod.model.LoanLedger</class>
+    <class>mod.model.LoanLedgerLog</class>
+    <class>mod.model.PositionLevel</class>
+    <class>mod.model.LeaveType</class>
+    <class>mod.model.LeaveApp</class>
+    <class>mod.model.EmpLeaveDetails</class>
+    <class>mod.model.EmpLeaveCredits</class>
+    <class>mod.model.DownloadIndicator</class>
+    <class>mod.model.OvertimeApp</class>
+    <class>mod.model.EmpOtDetails</class>
+    <class>mod.model.OvertimeAppDetails</class>
+    <class>mod.model.EmpPayDetails</class>
+    <class>mod.model.EmpPay</class>
+    <class>mod.model.PayComponent</class>
+    <class>mod.model.EmpOvertime</class>
+    <class>mod.model.FailureLogApp</class>
+    <class>mod.model.FailureLogs</class>
+    <class>mod.model.EmpFieldDetails</class>
+    <class>mod.model.EmpFieldApp</class>
+    <class>mod.model.EmpDtrReport</class>
+    <class>mod.model.EmpDtrGen</class>
+    <class>mod.model.AcctNoGenerator</class>
+    <class>mod.model.HoursWork</class>
+    <class>mod.model.LeaveCreditLog</class>
+    <class>mod.model.EmpEarnLog</class>
+    <class>mod.model.ServiceRecord</class>
+    <class>mod.gui.employee.ServiceRecord</class>
+    <class>mod.model.TempGl</class>
+    <class>mod.model.TempSl</class>
+    <class>mod.model.TempBatch</class>
+    <class>mod.model.TempAcctEntry</class>
+    <class>mod.model.TimeLogFinal</class>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/payroll_db?zeroDateTimeBehavior=convertToNull"/>
+      <property name="javax.persistence.jdbc.password" value="nice1234"/>
+      <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+      <property name="javax.persistence.jdbc.user" value="root"/>
+    </properties>
+  </persistence-unit>
+</persistence>

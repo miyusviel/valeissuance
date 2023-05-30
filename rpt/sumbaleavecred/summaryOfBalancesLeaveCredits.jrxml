@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="summaryOfBalancesLeaveCredits" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="95c6257d-6a85-430f-b35c-4b88d6e8c62c">
+	<property name="ireport.zoom" value="1.3310000000000013"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="27"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\Users\\Personal\\Desktop\\PaySys-No1\\rpt\\sumbaleavecred\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="DESC" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT e.emp_id, CONCAT(last_name,', ',first_name,' ',middle_name,' ',COALESCE(suffix_name,'')) as nym  FROM employee e WHERE e.emp_type_id = 1 ORDER BY nym]]>
+	</queryString>
+	<field name="emp_id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nym" class="java.lang.String"/>
+	<variable name="CREDIT" class="java.lang.String">
+		<variableExpression><![CDATA[$V{CREDIT}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="59" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="1084141c-2c20-443b-9827-7454d99ac454" x="0" y="13" width="555" height="13"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Bindoy, Negros Oriental]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="e1b0a2e2-5a1d-48ec-93d4-0fe4cda7396c" x="0" y="0" width="555" height="13"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NEGROS ORIENTAL I, ELECTRIC COOPERATIVE, INC.]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="5c537b2b-5252-4987-86e3-8c444d4c8b61" x="0" y="45" width="555" height="11"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{DESC}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="8eadf827-42ee-40d3-9d67-531f6c2ad947" x="0" y="26" width="555" height="20"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SUMMARY OF BALANCES OF LEAVE CREDITS]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="25" splitType="Stretch">
+			<line>
+				<reportElement uuid="b4e81a11-1f74-46db-a606-9b4c72519f26" x="0" y="0" width="555" height="1"/>
+			</line>
+			<staticText>
+				<reportElement uuid="2d9a58e9-f3f8-4809-8836-110d191f33e4" x="28" y="0" width="461" height="23"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NAME]]></text>
+			</staticText>
+			<line direction="BottomUp">
+				<reportElement uuid="a23de534-566f-47fe-abc2-661b7d10ba26" x="0" y="0" width="1" height="24"/>
+			</line>
+			<line>
+				<reportElement uuid="5c0e5d6c-e993-4917-9eec-fa0f1f009927" x="0" y="23" width="555" height="1"/>
+			</line>
+			<staticText>
+				<reportElement uuid="574fcddc-f70c-4b29-926a-b3436508a827" x="2" y="0" width="26" height="24"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NO.]]></text>
+			</staticText>
+			<line direction="BottomUp">
+				<reportElement uuid="9ade85df-7d76-49e2-b0ab-fdbbfc05ceb5" x="554" y="0" width="1" height="24"/>
+			</line>
+			<line direction="BottomUp">
+				<reportElement uuid="ef2392f0-dbd4-4dad-a4e8-51e207cd851e" x="27" y="0" width="1" height="24"/>
+			</line>
+			<line direction="BottomUp">
+				<reportElement uuid="17d3e98f-003f-476b-baad-b7be3315a4bc" x="489" y="0" width="1" height="24"/>
+			</line>
+			<staticText>
+				<reportElement uuid="2422cced-8472-46fe-acf3-2e775015b8b9" x="490" y="0" width="64" height="23"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CREDIT BALANCE]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="11" splitType="Stretch">
+			<textField>
+				<reportElement uuid="ee2ef8df-7993-4258-8b1f-3ab3d891294f" x="0" y="0" width="27" height="11"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="f1231dd2-c1f2-4321-ba0b-bf5f9910965b" x="28" y="0" width="461" height="11"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nym}]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement uuid="076ff6d1-e2d9-4e2f-a6fe-f81421bf77c6" x="490" y="0" width="64" height="11"/>
+				<subreportParameter name="emp_id">
+					<subreportParameterExpression><![CDATA[$F{emp_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "subBalCredit.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
