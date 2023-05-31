@@ -48,7 +48,7 @@ public class vale_main extends javax.swing.JFrame {
             Component component = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 
             // Get the value of the "Status" column for the current row
-            String status = table.getValueAt(row, 14).toString();
+            String status = table.getValueAt(row, 15).toString();
 
         // Set the background color based on the "Status" value
             switch (status) {
@@ -73,7 +73,7 @@ public class vale_main extends javax.swing.JFrame {
     private void populateTable() {
         Connection conn = DBConn.getConnection();
         String createString;
-        createString = "SELECT t.vale_no, t.type, a.title, v.description, f.description, s.name, d.townname, t.createdby, t.createddate," +
+        createString = "SELECT t_trans_id, t.vale_no, t.type, a.title, v.description, f.description, s.name, d.townname, t.createdby, t.createddate," +
                 " DATE_ADD(createddate, INTERVAL 7 day) AS validuntil, t.approvedby, t.approveddate, t.volrequested, t.volgiven, ds.doc_status_desc, e.last_name, u.full_name" +
                 " FROM transaction t" +
                 " INNER JOIN vehicle v ON v.vehicle_id = t.trans_id" +
@@ -111,7 +111,7 @@ public class vale_main extends javax.swing.JFrame {
             int cnt = 0;
 
             while (rs.next()) {
-                Tablemodel.addRow(new Object[]{rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getDate(9), rs.getDate(10), rs.getString(11), rs.getDate(12), rs.getInt(13), rs.getInt(14), rs.getString(15), rs.getString(16)});
+                Tablemodel.addRow(new Object[]{rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9), rs.getDate(10), rs.getDate(11), rs.getString(12), rs.getDate(13), rs.getInt(14), rs.getInt(15), rs.getString(16), rs.getString(17)});
                 cnt++;
             }
 
@@ -156,13 +156,13 @@ public class vale_main extends javax.swing.JFrame {
 
         tblMain.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Code", "Type", "Account", "Vehicle", "Fuel Type", "Supplier", "Destination", "Created By", "Date Created", "Validity", "Approved By", "Date Approved", "Volume Requested", "Volume Issued", "Status", "Logged By"
+                "ID", "Code", "Type", "Account", "Vehicle", "Fuel Type", "Supplier", "Destination", "Created By", "Date Created", "Validity", "Approved By", "Date Approved", "Volume Requested", "Volume Issued", "Status", "Logged By"
             }
         ));
         jScrollPane1.setViewportView(tblMain);
