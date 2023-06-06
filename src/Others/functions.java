@@ -28,6 +28,29 @@ import org.joda.time.format.DateTimeFormatter;
 public class functions {
 
     static Statement stmt;
+    static int transid;
+    private String valeNo;
+    static int userid;
+    
+    public static int getUserID() {
+        return userid;
+    }
+
+    public void setUserID(Integer userid) {
+        this.userid = userid;
+    }
+    
+    public int getTransID() {   //getters
+        return transid;
+    }
+
+    public void setTransID(Integer id) {   //setters
+        this.transid = id;
+    }
+
+    public String getValeNo() {
+        return valeNo;
+    }
 
     public static String getSystemInfo() {
         String sys = null;
@@ -624,12 +647,7 @@ return output;
     }
 
     public static void main(String[] args) {
-
-   
         Date y= dateParser3("2014-12-16 07:33:47.0");
         System.out.println(y);
-       
-        
-
     }
 }

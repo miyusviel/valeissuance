@@ -22,10 +22,15 @@ import javax.swing.UIManager;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
-import Connection.DBConn;
 import java.awt.Color;
+import java.awt.event.KeyEvent;
+
+import Connection.DBConn;
+import Transaction.vale_dialog;
 
 public class vale_main extends javax.swing.JFrame {
+    
+    public static vale_dialog nextTransfrmparent;
     
     static DefaultTableCellRenderer cellAlignCenterRenderer = new DefaultTableCellRenderer();
     static DefaultTableCellRenderer cellAlignRightRenderer = new DefaultTableCellRenderer();
@@ -35,6 +40,7 @@ public class vale_main extends javax.swing.JFrame {
     public vale_main() {
         initComponents();
         populateTable();
+        setLocationRelativeTo(this);
         
         jScrollPane1.setViewportView(tblMain);
         tblMain.setDefaultRenderer(Object.class, new CustomTableCellRenderer());
@@ -73,7 +79,7 @@ public class vale_main extends javax.swing.JFrame {
     private void populateTable() {
         Connection conn = DBConn.getConnection();
         String createString;
-        createString = "SELECT t_trans_id, t.vale_no, t.type, a.title, v.description, f.description, s.name, d.townname, t.createdby, t.createddate," +
+        createString = "SELECT t.trans_id, t.vale_no, t.type, a.title, v.description, f.description, s.name, d.townname, t.createdby, t.createddate," +
                 " DATE_ADD(createddate, INTERVAL 7 day) AS validuntil, t.approvedby, t.approveddate, t.volrequested, t.volgiven, ds.doc_status_desc, e.last_name, u.full_name" +
                 " FROM transaction t" +
                 " INNER JOIN vehicle v ON v.vehicle_id = t.trans_id" +
@@ -125,6 +131,17 @@ public class vale_main extends javax.swing.JFrame {
         }
     }
 
+    private void openUpdateDialog() {
+        int selectedRow = tblMain.getSelectedRow();
+        int statusColumnIndex = 2; // Assuming the status column is at index 2
+
+        Object statusValue = tblMain.getValueAt(selectedRow, statusColumnIndex);
+        String status = String.valueOf(statusValue);
+
+        nextTransfrmparent = new vale_dialog(this, true);      
+        nextTransfrmparent.setVisible(true);
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -165,6 +182,16 @@ public class vale_main extends javax.swing.JFrame {
                 "ID", "Code", "Type", "Account", "Vehicle", "Fuel Type", "Supplier", "Destination", "Created By", "Date Created", "Validity", "Approved By", "Date Approved", "Volume Requested", "Volume Issued", "Status", "Logged By"
             }
         ));
+        tblMain.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblMainMouseClicked(evt);
+            }
+        });
+        tblMain.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tblMainKeyPressed(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblMain);
 
         cmdNew.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add.png"))); // NOI18N
@@ -236,12 +263,31 @@ public class vale_main extends javax.swing.JFrame {
     }//GEN-LAST:event_txtSearchActionPerformed
 
     private void cmdNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdNewActionPerformed
-        // TODO add your handling code here:
+        nextTransfrmparent = new vale_dialog(this, true);         // Call vale_dialog form
+        nextTransfrmparent.cmdNewClicked();                                     // Notify vale_dialog form that cmdNew is triggered
+        nextTransfrmparent.setVisible(true);
     }//GEN-LAST:event_cmdNewActionPerformed
 
     private void cmdEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdEditActionPerformed
-
+        if (tblMain.getRowCount() > 0) {
+            tblMain.setRowSelectionInterval(0, 0);
+        }
+        
+        openUpdateDialog();
     }//GEN-LAST:event_cmdEditActionPerformed
+
+    private void tblMainMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMainMouseClicked
+        if (evt.getClickCount() == 2) {
+            openUpdateDialog();
+        }
+    }//GEN-LAST:event_tblMainMouseClicked
+
+    private void tblMainKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblMainKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            openUpdateDialog();
+        }
+    }//GEN-LAST:event_tblMainKeyPressed
 
     /**
      * @param args the command line arguments
