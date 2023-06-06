@@ -5,6 +5,8 @@
 package Transaction;
 
 import Connection.DBConn;
+import Others.functions;
+import Others.query;
 import static Transaction.vale_main.nextTransfrmparent;
 
 import java.awt.Component;
@@ -20,6 +22,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.plaf.basic.BasicArrowButton;
 import javax.swing.plaf.basic.BasicComboBoxUI;
@@ -125,7 +128,27 @@ public class vale_dialog extends javax.swing.JDialog {
         cmdSave.setIcon(saveImage);
     }
     
+    public void cmdEditClicked() {
+        cmdCancel.setVisible(true); // Show the cmdCancel button
+        cmbAccount.setEnabled(false);
+        cmbDestination.setEnabled(false);
+        cmbFuel.setEnabled(false);
+        cmbStatus.setEnabled(false);
+        cmbSupplier.setEnabled(false);
+        cmbType.setEnabled(false);
+        cmbVehicle.setEnabled(false);
+        txtCode.setEnabled(false);
+        txtVolreq.setEnabled(false);
+        
+//        Object colVal = parentForm.tblMain.getValueAt(selectedRowIndex, columnIndex);
 
+        
+        
+        
+        ImageIcon saveImage = new ImageIcon(getClass().getResource("/images/save.png"));
+        cmdSave.setText("Save");
+        cmdSave.setIcon(saveImage);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -164,7 +187,7 @@ public class vale_dialog extends javax.swing.JDialog {
         cmdCancel = new javax.swing.JButton();
         jLabel12 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        txtRemarks = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.LINE_AXIS));
@@ -253,9 +276,9 @@ public class vale_dialog extends javax.swing.JDialog {
 
         jLabel12.setText("Remarks:");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        txtRemarks.setColumns(20);
+        txtRemarks.setRows(5);
+        jScrollPane1.setViewportView(txtRemarks);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -384,25 +407,17 @@ public class vale_dialog extends javax.swing.JDialog {
     }//GEN-LAST:event_cmdBackActionPerformed
 
     private void cmdSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdSaveActionPerformed
-        //        if (txtlid.getText().isEmpty() == true || Double.parseDouble(txtcr.getText()) == 0 || txtremarks.getText().isEmpty() == true) {
-            //            JOptionPane.showMessageDialog(null, "Please fill-up all the required fields!");
-            //        } else {
-            //            boolean ie = IsLeaveApporvedExist();
-            //
-            //            if (ie == false) {
-                //                JOptionPane.showMessageDialog(null, "Invalid Leave No!");
-                //            } else {
-                //                if (Double.parseDouble(txtcr.getText()) > credit) {
-                    //                    JOptionPane.showMessageDialog(null, "Credits return is greater than the leave credits used!");
-                    //                } else {
-                    //                    InsertLog();
-                    //                    AddEarningsLog();
-                    //                    UpdateAffected();
-                    //                    this.dispose();
-                    //                    JOptionPane.showMessageDialog(null, "Process Successfully");
-                    //                }
-                //            }
-            //        }
+       int volg = Integer.parseInt(txtGiven.getText().replace(",", ""));
+       String apprvby = txtApproved.getText();       
+       String rem = txtRemarks.getText();
+       
+       functions trans = new functions();
+       
+       query.update_trans(trans.getTransID(), apprvby, functions.GetSystemNowDate(), volg, rem);
+       
+       JOptionPane.showMessageDialog(null, "Vale Updated", "Message", JOptionPane.INFORMATION_MESSAGE);
+       parentForm.populateTable();
+       this.dispose();
     }//GEN-LAST:event_cmdSaveActionPerformed
 
     private void txtVolreqActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtVolreqActionPerformed
@@ -486,10 +501,10 @@ public class vale_dialog extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField txtApproved;
     private javax.swing.JTextField txtCode;
     private javax.swing.JFormattedTextField txtGiven;
+    private javax.swing.JTextArea txtRemarks;
     private javax.swing.JFormattedTextField txtVolreq;
     // End of variables declaration//GEN-END:variables
 }

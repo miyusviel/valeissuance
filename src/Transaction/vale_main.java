@@ -26,6 +26,7 @@ import java.awt.Color;
 import java.awt.event.KeyEvent;
 
 import Connection.DBConn;
+import Others.functions;
 import Transaction.vale_dialog;
 
 public class vale_main extends javax.swing.JFrame {
@@ -76,7 +77,7 @@ public class vale_main extends javax.swing.JFrame {
         }
     }
     
-    private void populateTable() {
+    void populateTable() {
         Connection conn = DBConn.getConnection();
         String createString;
         createString = "SELECT t.trans_id, t.vale_no, t.type, a.title, v.description, f.description, s.name, d.townname, t.createdby, t.createddate," +
@@ -132,13 +133,25 @@ public class vale_main extends javax.swing.JFrame {
     }
 
     private void openUpdateDialog() {
-        int selectedRow = tblMain.getSelectedRow();
-        int statusColumnIndex = 2; // Assuming the status column is at index 2
+        functions ftransid = new functions(); 
 
-        Object statusValue = tblMain.getValueAt(selectedRow, statusColumnIndex);
-        String status = String.valueOf(statusValue);
-
-        nextTransfrmparent = new vale_dialog(this, true);      
+        if (tblMain.getRowCount() > 0) {
+            tblMain.setRowSelectionInterval(0, 0);
+            int selectedRow = tblMain.getSelectedRow();
+            int transID = (int) tblMain.getValueAt(selectedRow, 0);
+            ftransid.setTransID(transID);
+        }
+//        else
+//        {
+//            int selectedRow = tblMain.getSelectedRow();
+//            int statusColumnIndex = 2; // Assuming the status column is at index 2
+//
+//            Object statusValue = tblMain.getValueAt(selectedRow, statusColumnIndex);
+//            String status = String.valueOf(statusValue);
+//        }
+        
+        nextTransfrmparent = new vale_dialog(this, true);   
+        nextTransfrmparent.cmdEditClicked();
         nextTransfrmparent.setVisible(true);
     }
 
@@ -269,15 +282,21 @@ public class vale_main extends javax.swing.JFrame {
     }//GEN-LAST:event_cmdNewActionPerformed
 
     private void cmdEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdEditActionPerformed
-        if (tblMain.getRowCount() > 0) {
-            tblMain.setRowSelectionInterval(0, 0);
-        }
-        
         openUpdateDialog();
     }//GEN-LAST:event_cmdEditActionPerformed
 
     private void tblMainMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMainMouseClicked
+//        returnTransIDfromTbl();
+
+        functions ftransid = new functions();       
+        
+        int selectedRow = tblMain.getSelectedRow();
+        int transID = (int) tblMain.getValueAt(selectedRow, 0);
+        
+        ftransid.setTransID(transID);
+        
         if (evt.getClickCount() == 2) {
+            nextTransfrmparent.cmdEditClicked();
             openUpdateDialog();
         }
     }//GEN-LAST:event_tblMainMouseClicked
@@ -285,6 +304,7 @@ public class vale_main extends javax.swing.JFrame {
     private void tblMainKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblMainKeyPressed
         // TODO add your handling code here:
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            nextTransfrmparent.cmdEditClicked();
             openUpdateDialog();
         }
     }//GEN-LAST:event_tblMainKeyPressed
