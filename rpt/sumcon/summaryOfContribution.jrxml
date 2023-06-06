@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="SummaryOfContribution" pageWidth="936" pageHeight="612" orientation="Landscape" whenNoDataType="NoDataSection" columnWidth="896" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isSummaryWithPageHeaderAndFooter="true" isFloatColumnFooter="true" uuid="b4fbb4e7-04f2-4816-bf75-c6748af4a434">
+	<property name="ireport.zoom" value="2.000000000000003"/>
+	<property name="ireport.x" value="1124"/>
+	<property name="ireport.y" value="0"/>
+	<property name="ireport.callouts" value="##Tue Oct 15 21:01:13 SGT 2013"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[".//rpt/sumcon/"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="ppid_start" class="java.lang.Integer"/>
+	<parameter name="desc" class="java.lang.String"/>
+	<parameter name="ppid_end" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[SELECT e.emp_id, CONCAT(last_name,', ',first_name,' ',middle_name,' ',COALESCE(suffix_name,'')) as nym  FROM employee e WHERE e.emp_type_id=1 ORDER BY nym]]>
+	</queryString>
+	<field name="emp_id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nym" class="java.lang.String"/>
+	<variable name="basic" class="java.math.BigDecimal" resetType="Page" incrementType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$V{basic}]]></variableExpression>
+	</variable>
+	<variable name="sss" class="java.math.BigDecimal" resetType="Page" incrementType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$V{sss}]]></variableExpression>
+	</variable>
+	<variable name="phic" class="java.math.BigDecimal" resetType="Page" incrementType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$V{phic}]]></variableExpression>
+	</variable>
+	<variable name="hmdf" class="java.math.BigDecimal" resetType="Page" incrementType="Column">
+		<variableExpression><![CDATA[$V{hmdf}]]></variableExpression>
+	</variable>
+	<variable name="bir" class="java.math.BigDecimal" resetType="Page" incrementType="Column">
+		<variableExpression><![CDATA[$V{bir}]]></variableExpression>
+	</variable>
+	<variable name="total" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[new BigDecimal($V{sss}.doubleValue() + $V{phic}.doubleValue() + $V{hmdf}.doubleValue())]]></variableExpression>
+	</variable>
+	<pageHeader>
+		<band height="65" splitType="Immediate">
+			<staticText>
+				<reportElement uuid="bf8fb56b-19ca-4d7c-9c00-d6ea8e5e7338" x="333" y="1" width="260" height="13"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NEGROS ORIENTAL I, ELECTRIC COOPERATIVE, INC.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="81447dd5-eee9-4e91-a5e5-1f8c0ccf729c" x="333" y="14" width="260" height="13"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Bindoy, Negros Oriental]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="0eca8948-3df0-4045-aa92-f4270a6935f3" x="239" y="46" width="461" height="11"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{desc}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="754e1961-0af2-46a1-81a2-e1232de50bcc" x="333" y="30" width="260" height="20"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SUMMARY OF CONTRIBUTIONS]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="26" splitType="Immediate">
+			<line direction="BottomUp">
+				<reportElement uuid="d4b2adcb-bc5e-4567-a2be-fe8a36b3dc77" x="28" y="0" width="1" height="24"/>
+			</line>
+			<staticText>
+				<reportElement uuid="85e8bdcd-8b66-4e5f-ba56-66ff9ca3bcd4" x="29" y="1" width="168" height="23"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[EMPLOYEE]]></text>
+			</staticText>
+			<line direction="BottomUp">
+				<reportElement uuid="9c26c7d2-82b3-4175-b39a-a5e3486b0a09" x="1" y="1" width="1" height="24"/>
+			</line>
+			<line direction="BottomUp">
+				<reportElement uuid="56d0c539-2683-4cc4-b8f8-110bf842489e" x="197" y="1" width="1" height="24"/>
+			</line>
+			<staticText>
+				<reportElement uuid="65ed9da0-f284-4a86-81af-4edff4381422" x="198" y="1" width="97" height="23"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[BASIC SALARY]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="24e15d24-1e4a-4763-8383-56beda65d010" x="1" y="24" width="896" height="1"/>
+			</line>
+			<staticText>
+				<reportElement uuid="5fe7668a-da6f-4b48-a5c9-44d6cfdfd890" x="296" y="1" width="149" height="11"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SSS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="bcb5446b-f52c-4a4f-b25a-201ae2c10088" x="446" y="1" width="99" height="11"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PHIC]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="59056df7-ed38-4e28-938f-5d03f772142d" x="546" y="1" width="99" height="11"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[HDMF]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="e0d44d01-8f6a-4c1a-ba52-cd6a1a67367f" x="646" y="2" width="140" height="22"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[BIR W/ TAX]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="cd87ff71-1d1f-45f6-a859-8a92839dd67e" x="1" y="0" width="896" height="1"/>
+			</line>
+			<line direction="BottomUp">
+				<reportElement uuid="389b5fa4-93ee-49a3-84e8-4509670965fd" x="545" y="0" width="1" height="24"/>
+			</line>
+			<line>
+				<reportElement uuid="62307175-0305-4b00-ae0a-9cbc139738ef" x="296" y="12" width="349" height="1"/>
+			</line>
+			<line direction="BottomUp">
+				<reportElement uuid="58a4192b-21f9-4c2d-a63a-432e9cd54665" x="445" y="0" width="1" height="24"/>
+			</line>
+			<line direction="BottomUp">
+				<reportElement uuid="d3209a1f-5573-41bc-85a6-4754a7aec092" x="345" y="13" width="1" height="12"/>
+			</line>
+			<line direction="BottomUp">
+				<reportElement uuid="13719446-1d5e-4120-976c-85dbdb519de3" x="395" y="13" width="1" height="12"/>
+			</line>
+			<line direction="BottomUp">
+				<reportElement uuid="1b312b7d-f1e7-46ca-aa81-56380e9490e4" x="295" y="1" width="1" height="24"/>
+			</line>
+			<line direction="BottomUp">
+				<reportElement uuid="8d1e0cb1-427e-4eb4-88b4-868cb40a2e80" x="645" y="1" width="1" height="24"/>
+			</line>
+			<staticText>
+				<reportElement uuid="d5b5c324-296c-4829-b27e-68b2112e5d37" x="787" y="1" width="109" height="23"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL]]></text>
+			</staticText>
+			<line direction="BottomUp">
+				<reportElement uuid="ff09c9d1-be10-4552-b69e-32da1a286155" x="896" y="1" width="1" height="24"/>
+			</line>
+			<line direction="BottomUp">
+				<reportElement uuid="1f880b0a-0476-46c3-97b3-5fa59105b51f" x="786" y="1" width="1" height="24"/>
+			</line>
+			<staticText>
+				<reportElement uuid="62cbe4e4-0099-4ffa-9180-3a2d3efc2eea" x="2" y="1" width="26" height="24"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NO.]]></text>
+			</staticText>
+			<line direction="BottomUp">
+				<reportElement uuid="946c5a0a-d112-4e8f-959f-fe994f346a45" x="495" y="13" width="1" height="12"/>
+			</line>
+			<line direction="BottomUp">
+				<reportElement uuid="9846d94b-03cf-4460-b3e9-5cc9171a7775" x="595" y="13" width="1" height="12"/>
+			</line>
+			<staticText>
+				<reportElement uuid="d483e6b9-2b6f-483f-81ec-ce385c3067fe" x="296" y="13" width="50" height="11"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ER]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="cb90d583-4cec-479c-bfe7-6d352246207c" x="346" y="13" width="50" height="11"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[EE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="21e6ae57-38b7-4a2b-894b-f7a753e2ff45" x="395" y="13" width="50" height="11"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[EC]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="c4e38973-dee0-42cb-8bb7-e5ba5c93693d" x="445" y="13" width="50" height="11"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[EE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6e81c33a-cd76-47af-8b17-73323b38f469" x="495" y="13" width="50" height="11"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ER]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="2f7b6ea6-97f7-4e60-aa57-50fb3a639318" x="545" y="13" width="50" height="11"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[EE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="a34181fa-0033-4035-b752-f188ec007407" x="595" y="13" width="50" height="11"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ER]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="11" splitType="Immediate">
+			<textField>
+				<reportElement uuid="0e24f3ed-f62d-48fb-8b40-dcf111704932" x="29" y="0" width="168" height="11"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nym}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="2b67dcc2-5fe9-49ae-a4b3-47c1027f28d4" x="1" y="0" width="27" height="11"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement uuid="ad453927-e59f-4288-ab3b-602e213a4716" x="446" y="0" width="99" height="11"/>
+				<subreportParameter name="ppid_end">
+					<subreportParameterExpression><![CDATA[$P{ppid_end}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="emp_id">
+					<subreportParameterExpression><![CDATA[$F{emp_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="ppid_start">
+					<subreportParameterExpression><![CDATA[$P{ppid_start}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<returnValue subreportVariable="value1" toVariable="phic"/>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "subPHIC.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement uuid="3bbcf224-56af-412c-b01a-44c7beff0785" x="546" y="0" width="100" height="11"/>
+				<subreportParameter name="ppid_end">
+					<subreportParameterExpression><![CDATA[$P{ppid_end}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="emp_id">
+					<subreportParameterExpression><![CDATA[$F{emp_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="ppid_start">
+					<subreportParameterExpression><![CDATA[$P{ppid_start}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<returnValue subreportVariable="value1" toVariable="hmdf"/>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "subHDMF.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement uuid="5185f194-033a-4fb0-8c99-05b4183d0651" x="646" y="0" width="141" height="11"/>
+				<subreportParameter name="ppid_end">
+					<subreportParameterExpression><![CDATA[$P{ppid_end}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="emp_id">
+					<subreportParameterExpression><![CDATA[$F{emp_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="ppid_start">
+					<subreportParameterExpression><![CDATA[$P{ppid_start}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<returnValue subreportVariable="value" toVariable="bir" calculation="Sum"/>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "subBIR.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement uuid="0f82bcf6-c6dc-463c-a802-67d404bfde0b" x="198" y="0" width="97" height="11"/>
+				<subreportParameter name="ppid_end">
+					<subreportParameterExpression><![CDATA[$P{ppid_end}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="emp_id">
+					<subreportParameterExpression><![CDATA[$F{emp_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="ppid_start">
+					<subreportParameterExpression><![CDATA[$P{ppid_start}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<returnValue subreportVariable="value" toVariable="basic"/>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "subBasic.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement uuid="7771c0a6-02fb-4b80-834b-14abdf69f1d4" x="296" y="0" width="149" height="11"/>
+				<subreportParameter name="ppid_end">
+					<subreportParameterExpression><![CDATA[$P{ppid_end}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="emp_id">
+					<subreportParameterExpression><![CDATA[$F{emp_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="ppid_start">
+					<subreportParameterExpression><![CDATA[$P{ppid_start}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<returnValue subreportVariable="value1" toVariable="sss"/>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "subSSS.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement uuid="aca3e5c9-de47-4dac-a3a0-334b2590e2a7" x="787" y="0" width="109" height="11"/>
+				<subreportParameter name="ppid_end">
+					<subreportParameterExpression><![CDATA[$P{ppid_end}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="emp_id">
+					<subreportParameterExpression><![CDATA[$F{emp_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="ppid_start">
+					<subreportParameterExpression><![CDATA[$P{ppid_start}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "subTotalContribution.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="37" splitType="Stretch">
+			<line>
+				<reportElement uuid="dcb15ff2-69fb-4760-ac79-f63864b6ff50" stretchType="RelativeToBandHeight" x="0" y="1" width="896" height="1"/>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="15">
+			<textField>
+				<reportElement uuid="35a6dd01-282b-4ea3-9558-b4b30f7b0638" x="389" y="2" width="80" height="11"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement uuid="4eeb90b7-1a9f-41a7-b969-a336607ee8f0" x="469" y="2" width="40" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="1">
+			<line>
+				<reportElement uuid="beeeea1b-4c9a-4465-9d05-7dcdecf3e1d2" stretchType="RelativeToBandHeight" x="68" y="0" width="12" height="1">
+					<printWhenExpression><![CDATA[new Boolean($P{REPORT_PARAMETERS_MAP}.put("LastPageNumber",$V{PAGE_NUMBER}).equals("dummyPrintWhen"))]]></printWhenExpression>
+				</reportElement>
+			</line>
+		</band>
+	</summary>
+</jasperReport>

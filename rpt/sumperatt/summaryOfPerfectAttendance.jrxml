@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="summaryOfPerfectAttendance" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="22032d45-ed10-45d5-b0c7-8eef284af261">
+	<property name="ireport.zoom" value="2.357947691000002"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="52"/>
+	<parameter name="pp_id" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="DESC" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT DISTINCT
+e.emp_id,
+CONCAT(last_name,', ',first_name,' ',middle_name,' ',COALESCE(suffix_name,'')) as nym
+FROM employee e INNER JOIN emp_pay ep ON ep.emp_id = e.emp_id WHERE e.emp_id NOT IN (SELECT e.emp_id FROM employee e INNER JOIN emp_pay ep ON ep.emp_id = e.emp_id INNER JOIN emp_pay_details epd ON epd.emp_pay_id = ep.emp_pay_id WHERE epd.pay_comp_id = 7 OR epd.pay_comp_id = 12) AND e.emp_type_id = 1 AND ep.period_id = $P{pp_id} ORDER BY e.last_name]]>
+	</queryString>
+	<field name="emp_id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nym" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="59" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="95dcc6cb-6cef-459b-b5ff-f31d08bd30b0" x="0" y="0" width="555" height="13"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NEGROS ORIENTAL I, ELECTRIC COOPERATIVE, INC.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="be32da07-31c0-45ee-9eca-1e75a5a80407" x="0" y="26" width="555" height="20"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SUMMARY OF EMPLOYEES 100% ATTENDANCE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="3521fdbe-51e7-4522-9811-b55fa23985da" x="0" y="13" width="555" height="13"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Bindoy, Negros Oriental]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="cf5e52c3-99e6-4ae4-a5ef-ffb1608239bd" x="0" y="45" width="555" height="11"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{DESC}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="25">
+			<line direction="BottomUp">
+				<reportElement uuid="b51eb82e-3c5f-4c58-ae02-4a7739d58774" x="27" y="0" width="1" height="24"/>
+			</line>
+			<staticText>
+				<reportElement uuid="a468c962-d0a6-405d-9e88-73cf05a95561" x="28" y="1" width="527" height="23"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NAME]]></text>
+			</staticText>
+			<line direction="BottomUp">
+				<reportElement uuid="c53adf98-3368-454c-bb19-2e0336d62b63" x="0" y="1" width="1" height="24"/>
+			</line>
+			<line>
+				<reportElement uuid="a35c0b40-714e-4577-99b8-02668f9e11b8" x="0" y="24" width="555" height="1"/>
+			</line>
+			<line>
+				<reportElement uuid="32e82673-0c10-4fc0-87ba-e2c7879dcca6" x="0" y="0" width="555" height="1"/>
+			</line>
+			<staticText>
+				<reportElement uuid="cf4628d0-1633-4e3c-bd72-44daf9fba830" x="2" y="1" width="26" height="24"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NO.]]></text>
+			</staticText>
+			<line direction="BottomUp">
+				<reportElement uuid="4b375307-9090-49de-b8df-ae93e04aef1a" x="554" y="1" width="1" height="24"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<textField>
+				<reportElement uuid="09a518ce-0c9f-416e-9e9c-6cd2e4a6fd52" x="1" y="0" width="27" height="15"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement uuid="b6db16d0-3887-40ef-938c-a1705c5b7d87" x="28" y="0" width="526" height="15"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{nym}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

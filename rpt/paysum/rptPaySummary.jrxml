@@ -1,0 +1,621 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptPaySummary" pageWidth="936" pageHeight="612" orientation="Landscape" whenNoDataType="NoDataSection" columnWidth="896" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isSummaryWithPageHeaderAndFooter="true" isFloatColumnFooter="true" uuid="b4fbb4e7-04f2-4816-bf75-c6748af4a434">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="57"/>
+	<property name="ireport.callouts" value="##Tue Oct 15 21:01:13 SGT 2013"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[".//rpt/paysum/"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="ppid" class="java.lang.Integer"/>
+	<parameter name="desc" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT e.emp_id, CONCAT(last_name,', ',first_name,' ',middle_name,' ',COALESCE(suffix_name,'')) as nym  FROM employee e WHERE e.emp_type_id=1 ORDER BY nym]]>
+	</queryString>
+	<field name="emp_id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nym" class="java.lang.String"/>
+	<variable name="basic" class="java.math.BigDecimal" resetType="Page" incrementType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$V{basic}]]></variableExpression>
+	</variable>
+	<variable name="basicoverall" class="java.math.BigDecimal" incrementType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$V{basicoverall}]]></variableExpression>
+	</variable>
+	<variable name="gross" class="java.math.BigDecimal" resetType="Page" incrementType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$V{gross}]]></variableExpression>
+	</variable>
+	<variable name="grossoverall" class="java.math.BigDecimal" incrementType="Report">
+		<variableExpression><![CDATA[$V{grossoverall}]]></variableExpression>
+	</variable>
+	<variable name="sss" class="java.math.BigDecimal" resetType="Page" incrementType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$V{sss}]]></variableExpression>
+	</variable>
+	<variable name="sssoverall" class="java.math.BigDecimal" incrementType="Report">
+		<variableExpression><![CDATA[$V{sssoverall}]]></variableExpression>
+	</variable>
+	<variable name="phic" class="java.math.BigDecimal" resetType="Page" incrementType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$V{phic}]]></variableExpression>
+	</variable>
+	<variable name="phicoverall" class="java.math.BigDecimal" incrementType="Report">
+		<variableExpression><![CDATA[$V{phicoverall}]]></variableExpression>
+	</variable>
+	<variable name="hmdf" class="java.math.BigDecimal" resetType="Page" incrementType="Column">
+		<variableExpression><![CDATA[$V{hmdf}]]></variableExpression>
+	</variable>
+	<variable name="hdmfoverall" class="java.math.BigDecimal" incrementType="Column">
+		<variableExpression><![CDATA[$V{hdmfoverall}]]></variableExpression>
+	</variable>
+	<variable name="bir" class="java.math.BigDecimal" resetType="Page" incrementType="Column">
+		<variableExpression><![CDATA[$V{bir}]]></variableExpression>
+	</variable>
+	<variable name="biroverall" class="java.math.BigDecimal" incrementType="Column">
+		<variableExpression><![CDATA[$V{biroverall}]]></variableExpression>
+	</variable>
+	<variable name="totaldeduc" class="java.math.BigDecimal" resetType="Page" incrementType="Column">
+		<variableExpression><![CDATA[$V{totaldeduc}]]></variableExpression>
+	</variable>
+	<variable name="totaldeducoverall" class="java.math.BigDecimal" incrementType="Column">
+		<variableExpression><![CDATA[$V{totaldeducoverall}]]></variableExpression>
+	</variable>
+	<variable name="net" class="java.math.BigDecimal" resetType="Page" incrementType="Column">
+		<variableExpression><![CDATA[$V{net}]]></variableExpression>
+	</variable>
+	<variable name="netoverall" class="java.math.BigDecimal" incrementType="Column">
+		<variableExpression><![CDATA[$V{netoverall}]]></variableExpression>
+	</variable>
+	<variable name="longevity" class="java.math.BigDecimal" resetType="Page" incrementType="Column">
+		<variableExpression><![CDATA[$V{longevity}]]></variableExpression>
+	</variable>
+	<variable name="longevityoverall" class="java.math.BigDecimal" incrementType="Column">
+		<variableExpression><![CDATA[$V{longevityoverall}]]></variableExpression>
+	</variable>
+	<pageHeader>
+		<band height="65" splitType="Immediate">
+			<staticText>
+				<reportElement uuid="bf8fb56b-19ca-4d7c-9c00-d6ea8e5e7338" x="333" y="1" width="260" height="13"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NEGROS ORIENTAL I, ELECTRIC COOPERATIVE, INC.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="81447dd5-eee9-4e91-a5e5-1f8c0ccf729c" x="333" y="14" width="260" height="13"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Bindoy, Negros Oriental]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="0eca8948-3df0-4045-aa92-f4270a6935f3" x="239" y="46" width="461" height="11"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{desc}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="754e1961-0af2-46a1-81a2-e1232de50bcc" x="380" y="30" width="174" height="20"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PAYROLL SUMMARY]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="26" splitType="Immediate">
+			<line direction="BottomUp">
+				<reportElement uuid="d4b2adcb-bc5e-4567-a2be-fe8a36b3dc77" x="249" y="1" width="1" height="24"/>
+			</line>
+			<staticText>
+				<reportElement uuid="85e8bdcd-8b66-4e5f-ba56-66ff9ca3bcd4" x="0" y="1" width="142" height="23"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[EMPLOYEE]]></text>
+			</staticText>
+			<line direction="BottomUp">
+				<reportElement uuid="fcff683e-5548-4c68-b6f5-1e54e3e3c3a2" x="139" y="1" width="1" height="24"/>
+			</line>
+			<line direction="BottomUp">
+				<reportElement uuid="9c26c7d2-82b3-4175-b39a-a5e3486b0a09" x="1" y="1" width="1" height="24"/>
+			</line>
+			<line direction="BottomUp">
+				<reportElement uuid="56d0c539-2683-4cc4-b8f8-110bf842489e" x="197" y="1" width="1" height="24"/>
+			</line>
+			<staticText>
+				<reportElement uuid="65ed9da0-f284-4a86-81af-4edff4381422" x="142" y="1" width="58" height="23"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[BASIC SALARY]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="b14a0055-affd-46e9-b565-f0ce99376422" x="200" y="1" width="49" height="23"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[LONGEVITY PAY]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="40848914-d1e9-41d8-b263-c60a0132e16d" x="296" y="1" width="61" height="23"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[GROSS SALARY]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="fa4de7b8-3f51-4d53-8645-f76ff7606c72" x="251" y="2" width="42" height="23"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[OVER TIME]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="24e15d24-1e4a-4763-8383-56beda65d010" x="1" y="24" width="896" height="1"/>
+			</line>
+			<staticText>
+				<reportElement uuid="f0ec9c2c-5d17-4f57-a69b-75e8248555c1" x="361" y="13" width="38" height="11"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SSS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="5fe7668a-da6f-4b48-a5c9-44d6cfdfd890" x="361" y="1" width="173" height="11"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PERSONAL DEDUCTIONS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="bcb5446b-f52c-4a4f-b25a-201ae2c10088" x="399" y="13" width="40" height="11"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PHIC]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="59056df7-ed38-4e28-938f-5d03f772142d" x="439" y="13" width="40" height="11"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[HDMF]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="e0d44d01-8f6a-4c1a-ba52-cd6a1a67367f" x="479" y="13" width="55" height="11"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[BIR]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="cd87ff71-1d1f-45f6-a859-8a92839dd67e" x="1" y="0" width="896" height="1"/>
+			</line>
+			<line direction="BottomUp">
+				<reportElement uuid="e3abfcfb-bf9e-4c8e-b5f7-a68280a2d9b0" x="359" y="1" width="1" height="24"/>
+			</line>
+			<line direction="BottomUp">
+				<reportElement uuid="389b5fa4-93ee-49a3-84e8-4509670965fd" x="534" y="1" width="1" height="24"/>
+			</line>
+			<line>
+				<reportElement uuid="62307175-0305-4b00-ae0a-9cbc139738ef" x="360" y="12" width="174" height="1"/>
+			</line>
+			<line direction="BottomUp">
+				<reportElement uuid="58a4192b-21f9-4c2d-a63a-432e9cd54665" x="400" y="13" width="1" height="12"/>
+			</line>
+			<line direction="BottomUp">
+				<reportElement uuid="d3209a1f-5573-41bc-85a6-4754a7aec092" x="440" y="13" width="1" height="12"/>
+			</line>
+			<line direction="BottomUp">
+				<reportElement uuid="13719446-1d5e-4120-976c-85dbdb519de3" x="481" y="13" width="1" height="12"/>
+			</line>
+			<staticText>
+				<reportElement uuid="cade1700-72fc-4d61-9499-80d39f5dd971" x="536" y="2" width="53" height="23"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[LOANS]]></text>
+			</staticText>
+			<line direction="BottomUp">
+				<reportElement uuid="2a945c52-81b8-4875-8300-699aa673301c" x="588" y="1" width="1" height="24"/>
+			</line>
+			<line direction="BottomUp">
+				<reportElement uuid="1b312b7d-f1e7-46ca-aa81-56380e9490e4" x="293" y="1" width="1" height="24"/>
+			</line>
+			<staticText>
+				<reportElement uuid="08d36477-15bb-42f8-b7a5-6b3a6f7a9e45" x="589" y="2" width="38" height="23"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[UNDER TIME]]></text>
+			</staticText>
+			<line direction="BottomUp">
+				<reportElement uuid="3a9b9c62-bccc-437e-b5cd-d563ece71e62" x="627" y="1" width="1" height="24"/>
+			</line>
+			<staticText>
+				<reportElement uuid="906054a1-384d-4063-92ef-1dfb27bb0a81" x="629" y="2" width="32" height="23"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[OTHER DEDUC.]]></text>
+			</staticText>
+			<line direction="BottomUp">
+				<reportElement uuid="8d1e0cb1-427e-4eb4-88b4-868cb40a2e80" x="663" y="1" width="1" height="24"/>
+			</line>
+			<staticText>
+				<reportElement uuid="2e69cb5e-1479-44d7-9589-9517acd82a0d" x="663" y="2" width="61" height="23"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL DEDUCTIONS]]></text>
+			</staticText>
+			<line direction="BottomUp">
+				<reportElement uuid="0e754384-3784-4f7b-9a52-a9d634493734" x="726" y="1" width="1" height="24"/>
+			</line>
+			<staticText>
+				<reportElement uuid="ea019054-7b43-4803-a30e-c0ed2ccbffc5" x="725" y="2" width="61" height="23"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NET PAY]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="d5b5c324-296c-4829-b27e-68b2112e5d37" x="787" y="1" width="109" height="23"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SIGNATURE]]></text>
+			</staticText>
+			<line direction="BottomUp">
+				<reportElement uuid="ff09c9d1-be10-4552-b69e-32da1a286155" x="896" y="1" width="1" height="24"/>
+			</line>
+			<line direction="BottomUp">
+				<reportElement uuid="1f880b0a-0476-46c3-97b3-5fa59105b51f" x="786" y="1" width="1" height="24"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="11" splitType="Immediate">
+			<textField>
+				<reportElement uuid="0e24f3ed-f62d-48fb-8b40-dcf111704932" x="17" y="0" width="125" height="11"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nym}]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement uuid="9f6ff32b-1d04-4bfa-b943-ec4a0d40234a" x="303" y="0" width="56" height="11"/>
+				<subreportParameter name="ppid">
+					<subreportParameterExpression><![CDATA[$P{ppid}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="emp_id">
+					<subreportParameterExpression><![CDATA[$F{emp_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<returnValue subreportVariable="value" toVariable="gross" calculation="Sum"/>
+				<returnValue subreportVariable="value" toVariable="grossoverall" calculation="Sum"/>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "subGross.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement uuid="bb028cf1-621d-499a-9352-ad3cc92bb6b0" x="360" y="0" width="38" height="11"/>
+				<subreportParameter name="ppid">
+					<subreportParameterExpression><![CDATA[$P{ppid}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="emp_id">
+					<subreportParameterExpression><![CDATA[$F{emp_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<returnValue subreportVariable="value" toVariable="sss" calculation="Sum"/>
+				<returnValue subreportVariable="value" toVariable="sssoverall" calculation="Sum"/>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "subSSS.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement uuid="7e561d2b-fe41-4a4b-b1e2-422348b74529" isPrintRepeatedValues="false" x="147" y="0" width="51" height="11"/>
+				<subreportParameter name="ppid">
+					<subreportParameterExpression><![CDATA[$P{ppid}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="emp_id">
+					<subreportParameterExpression><![CDATA[$F{emp_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<returnValue subreportVariable="value" toVariable="basic" calculation="Sum"/>
+				<returnValue subreportVariable="value" toVariable="basicoverall" calculation="Sum"/>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "subBasic.jasper"]]></subreportExpression>
+			</subreport>
+			<textField>
+				<reportElement uuid="3f11d154-3113-443a-8997-ff45858ce2bf" x="786" y="0" width="17" height="11"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement uuid="ca82ea3a-9fcb-4783-a7b0-44f767f1612e" x="399" y="0" width="40" height="11"/>
+				<subreportParameter name="ppid">
+					<subreportParameterExpression><![CDATA[$P{ppid}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="emp_id">
+					<subreportParameterExpression><![CDATA[$F{emp_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<returnValue subreportVariable="value" toVariable="phic" calculation="Sum"/>
+				<returnValue subreportVariable="value" toVariable="phicoverall" calculation="Sum"/>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "subPHIC.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement uuid="abf479b7-7e65-4186-93c5-ee972b6b1e91" x="439" y="0" width="40" height="11"/>
+				<subreportParameter name="ppid">
+					<subreportParameterExpression><![CDATA[$P{ppid}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="emp_id">
+					<subreportParameterExpression><![CDATA[$F{emp_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<returnValue subreportVariable="value" toVariable="hmdf" calculation="Sum"/>
+				<returnValue subreportVariable="value" toVariable="hdmfoverall" calculation="Sum"/>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "subHDMF.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement uuid="91d126fc-4380-4235-9b1d-e9cd62a2983f" x="479" y="0" width="53" height="11"/>
+				<subreportParameter name="ppid">
+					<subreportParameterExpression><![CDATA[$P{ppid}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="emp_id">
+					<subreportParameterExpression><![CDATA[$F{emp_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<returnValue subreportVariable="value" toVariable="bir" calculation="Sum"/>
+				<returnValue subreportVariable="value" toVariable="biroverall" calculation="Sum"/>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "subBIR.jasper"]]></subreportExpression>
+			</subreport>
+			<textField>
+				<reportElement uuid="2b67dcc2-5fe9-49ae-a4b3-47c1027f28d4" x="1" y="0" width="17" height="11"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="5bf92bdc-9d4a-48a9-ae5b-9cf2e53166c1" x="803" y="10" width="93" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<subreport>
+				<reportElement uuid="58c02b18-560f-489b-9e8f-6cf25c447f17" x="725" y="0" width="59" height="11"/>
+				<subreportParameter name="ppid">
+					<subreportParameterExpression><![CDATA[$P{ppid}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="emp_id">
+					<subreportParameterExpression><![CDATA[$F{emp_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<returnValue subreportVariable="value" toVariable="net" calculation="Sum"/>
+				<returnValue subreportVariable="value" toVariable="netoverall" calculation="Sum"/>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "subNetPay.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement uuid="54e46a30-4d7e-4ac5-8cde-423ba8903126" x="663" y="0" width="61" height="11"/>
+				<subreportParameter name="ppid">
+					<subreportParameterExpression><![CDATA[$P{ppid}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="emp_id">
+					<subreportParameterExpression><![CDATA[$F{emp_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<returnValue subreportVariable="value" toVariable="totaldeduc" calculation="Sum"/>
+				<returnValue subreportVariable="value" toVariable="totaldeducoverall" calculation="Sum"/>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "subTotalDeduc.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement uuid="78eb766a-b0c4-4af6-b36a-09e579515fce" x="198" y="0" width="51" height="11"/>
+				<subreportParameter name="ppid">
+					<subreportParameterExpression><![CDATA[$P{ppid}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="emp_id">
+					<subreportParameterExpression><![CDATA[$F{emp_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<returnValue subreportVariable="value" toVariable="longevity" calculation="Sum"/>
+				<returnValue subreportVariable="value" toVariable="longevityoverall" calculation="Sum"/>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "subLongevity.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="37" splitType="Stretch">
+			<line>
+				<reportElement uuid="dcb15ff2-69fb-4760-ac79-f63864b6ff50" stretchType="RelativeToBandHeight" x="0" y="1" width="896" height="1"/>
+			</line>
+			<staticText>
+				<reportElement uuid="4f00e828-1946-46b3-8644-862f12691bfa" stretchType="RelativeToBandHeight" x="80" y="8" width="50" height="11"/>
+				<textElement verticalAlignment="Middle" markup="none">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SUB-TOTAL]]></text>
+			</staticText>
+			<textField pattern="#,##0.00;(#,##0.00)">
+				<reportElement uuid="c638df92-b39d-4ec7-920d-f22574ca7cb4" stretchType="RelativeToBandHeight" x="132" y="8" width="62" height="11" forecolor="#000099"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle" markup="none">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{basic}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report" pattern="#,##0.00;(#,##0.00)">
+				<reportElement uuid="f974b0a0-b665-4bd4-8a82-906d8975a2f9" x="134" y="25" width="60" height="11" forecolor="#000099">
+					<printWhenExpression><![CDATA[new Boolean($V{PAGE_NUMBER}.equals($P{REPORT_PARAMETERS_MAP}.get("LastPageNumber")))]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="true" isStrikeThrough="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{basicoverall}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="bcb64d4e-866f-47db-8f1a-54cdb7508e7b" x="68" y="25" width="62" height="11">
+					<printWhenExpression><![CDATA[new Boolean($V{PAGE_NUMBER}.equals($P{REPORT_PARAMETERS_MAP}.get("LastPageNumber")))]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8" isBold="true" isStrikeThrough="false"/>
+					<paragraph tabStopWidth="40"/>
+				</textElement>
+				<text><![CDATA[GRAND TOTAL]]></text>
+			</staticText>
+			<textField pattern="#,##0.00;(#,##0.00)">
+				<reportElement uuid="fcd39301-39de-4b86-b1a6-cb3a855bcbf0" x="300" y="8" width="56" height="11" forecolor="#006600"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{gross}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;(#,##0.00)">
+				<reportElement uuid="2d821485-ddab-4c44-a9e6-72fbc61da938" x="300" y="25" width="56" height="11" forecolor="#006600">
+					<printWhenExpression><![CDATA[new Boolean($V{PAGE_NUMBER}.equals($P{REPORT_PARAMETERS_MAP}.get("LastPageNumber")))]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{grossoverall}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;(#,##0.00)">
+				<reportElement uuid="4702d3a6-e946-4b34-a1fd-e672675bba24" x="359" y="8" width="39" height="11" forecolor="#FF0000"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{sss}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;(#,##0.00)">
+				<reportElement uuid="dbee8ebe-92e4-41f9-bb6a-73850726c6b9" x="359" y="25" width="39" height="11" forecolor="#FF0000">
+					<printWhenExpression><![CDATA[new Boolean($V{PAGE_NUMBER}.equals($P{REPORT_PARAMETERS_MAP}.get("LastPageNumber")))]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{sssoverall}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;(#,##0.00)">
+				<reportElement uuid="66dc96f1-9ebd-41f5-b019-bdcddefc82fb" x="400" y="8" width="39" height="11" forecolor="#FF0000"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{phic}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;(#,##0.00)">
+				<reportElement uuid="93b0a2ea-990f-45ae-b986-f1d5e5b755ca" x="400" y="25" width="39" height="11" forecolor="#FF0000">
+					<printWhenExpression><![CDATA[new Boolean($V{PAGE_NUMBER}.equals($P{REPORT_PARAMETERS_MAP}.get("LastPageNumber")))]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{phicoverall}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;(#,##0.00)">
+				<reportElement uuid="027eeb40-7231-464d-8e11-10112b383f34" x="440" y="25" width="39" height="11" forecolor="#FF0000">
+					<printWhenExpression><![CDATA[new Boolean($V{PAGE_NUMBER}.equals($P{REPORT_PARAMETERS_MAP}.get("LastPageNumber")))]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{hdmfoverall}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;(#,##0.00)">
+				<reportElement uuid="e800129f-5fbd-4e91-87ee-bdcf976aca84" x="440" y="8" width="39" height="11" forecolor="#FF0000"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{hmdf}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;(#,##0.00)">
+				<reportElement uuid="e75eb634-f488-48fe-a026-52bc54496fe1" x="482" y="25" width="50" height="11" forecolor="#FF0000">
+					<printWhenExpression><![CDATA[new Boolean($V{PAGE_NUMBER}.equals($P{REPORT_PARAMETERS_MAP}.get("LastPageNumber")))]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{biroverall}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;(#,##0.00)">
+				<reportElement uuid="bfce7657-0bcb-4a99-aa7f-86ab58a8c838" x="482" y="8" width="50" height="11" forecolor="#FF0000"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{bir}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;(#,##0.00)">
+				<reportElement uuid="f46c7903-ec64-4ac8-b74b-4cb2bab9d631" x="664" y="25" width="60" height="11" forecolor="#FF0000">
+					<printWhenExpression><![CDATA[new Boolean($V{PAGE_NUMBER}.equals($P{REPORT_PARAMETERS_MAP}.get("LastPageNumber")))]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{totaldeducoverall}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;(#,##0.00)">
+				<reportElement uuid="bb04c4a0-759f-4bac-9797-a18986152f94" x="664" y="8" width="60" height="11" forecolor="#FF0000"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{totaldeduc}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;(#,##0.00)">
+				<reportElement uuid="5f5ac7fe-70e4-4d14-b9ac-b5173bd4ab98" x="727" y="8" width="60" height="11" forecolor="#FF0000"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{net}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;(#,##0.00)">
+				<reportElement uuid="61ebb1ae-1f5d-4ced-ad52-d8e084856052" x="727" y="25" width="60" height="11" forecolor="#FF0000">
+					<printWhenExpression><![CDATA[new Boolean($V{PAGE_NUMBER}.equals($P{REPORT_PARAMETERS_MAP}.get("LastPageNumber")))]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{netoverall}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;(#,##0.00)">
+				<reportElement uuid="27a57ba5-a036-483f-abf1-f4275c8bf5a2" x="197" y="8" width="50" height="11" forecolor="#006600"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{longevity}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;(#,##0.00)">
+				<reportElement uuid="05a58959-e2d9-43d4-8a7f-50e3a93564bf" x="197" y="25" width="50" height="11" forecolor="#006600">
+					<printWhenExpression><![CDATA[new Boolean($V{PAGE_NUMBER}.equals($P{REPORT_PARAMETERS_MAP}.get("LastPageNumber")))]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{longevityoverall}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="15">
+			<textField>
+				<reportElement uuid="35a6dd01-282b-4ea3-9558-b4b30f7b0638" x="389" y="2" width="80" height="11"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement uuid="4eeb90b7-1a9f-41a7-b969-a336607ee8f0" x="469" y="2" width="40" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="2">
+			<line>
+				<reportElement uuid="beeeea1b-4c9a-4465-9d05-7dcdecf3e1d2" stretchType="RelativeToBandHeight" x="68" y="0" width="12" height="1">
+					<printWhenExpression><![CDATA[new Boolean($P{REPORT_PARAMETERS_MAP}.put("LastPageNumber",$V{PAGE_NUMBER}).equals("dummyPrintWhen"))]]></printWhenExpression>
+				</reportElement>
+			</line>
+		</band>
+	</summary>
+</jasperReport>

@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptOTComputation" language="groovy" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="bef9c172-30d0-4c7c-88be-fdfe4599d64f">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="25"/>
+	<parameter name="period" class="java.lang.String"/>
+	<parameter name="ppid" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select eid, nym, log_date, otrd, otsat, otsun, oth, (salary_base + (st * step_inc_value)) as sal, (((((salary_base + (st * step_inc_value))/30.41666666)/8)/60)*otrd)*1.25 as otrdtot,
+((((salary_base + (st * step_inc_value))/30.41666666)/8)/60)*otsat as otsattot,(((((salary_base + (st * step_inc_value))/30.41666666)/8)/60)*otsun)*1.30 as otsuntot,
+(((((salary_base + (st * step_inc_value))/30.41666666)/8)/60)*oth)*1.30 as othtot
+  from (select e.emp_id as eid, CONCAT(last_name,', ', first_name,' ',COALESCE(middle_name,''), ' ',COALESCE(suffix_name,'')) as nym
+,log_date,
+if(ot_rd<=0, '', if (ot_rd<30,0,ot_rd)) as otrd,
+if(ot_sat<=0, '',  if(ot_sat<30,0,ot_sat)) as otsat,
+if(ot_sun<=0, '',  if(ot_sun<30,0,ot_sun)) as otsun,
+if(ot_holiday<=0, '', if( ot_holiday<30,0,ot_holiday)) as oth,
+step as st, qualified_flag,
+if(qualified_flag=1,rank,rank-1) as  rnk
+
+
+from
+hours_work h
+left join employee e on h.emp_id=e.emp_id left join position p on e.position_id=p.position_id
+where payroll_period_id=$P{ppid} and (ot_sat<>0 or ot_sun<>0 or ot_holiday<>0 or ot_rd<>0) and p.pos_level_id<2  order by nym, log_date)
+tbl left join salary s on s.rank_value = tbl.rnk where otrd<>0 or otsat<>0 or otsun<>0 or oth<>0 order by nym, log_date]]>
+	</queryString>
+	<field name="eid" class="java.lang.Integer"/>
+	<field name="nym" class="java.lang.String"/>
+	<field name="log_date" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="otrd" class="java.lang.String"/>
+	<field name="otsat" class="java.lang.String"/>
+	<field name="otsun" class="java.lang.String"/>
+	<field name="oth" class="java.lang.String"/>
+	<field name="sal" class="java.math.BigDecimal"/>
+	<field name="otrdtot" class="java.lang.Double"/>
+	<field name="otsattot" class="java.lang.Double"/>
+	<field name="otsuntot" class="java.lang.Double"/>
+	<field name="othtot" class="java.lang.Double"/>
+	<variable name="otrdtot_1" class="java.lang.Double" resetType="Group" resetGroup="empid" calculation="Sum">
+		<variableExpression><![CDATA[$F{otrdtot}]]></variableExpression>
+	</variable>
+	<variable name="otsattot_1" class="java.lang.Double" resetType="Group" resetGroup="empid" calculation="Sum">
+		<variableExpression><![CDATA[$F{otsattot}]]></variableExpression>
+	</variable>
+	<variable name="otsuntot_1" class="java.lang.Double" resetType="Group" resetGroup="empid" calculation="Sum">
+		<variableExpression><![CDATA[$F{otsuntot}]]></variableExpression>
+	</variable>
+	<variable name="othtot_1" class="java.lang.Double" resetType="Group" resetGroup="empid" calculation="Sum">
+		<variableExpression><![CDATA[$F{othtot}]]></variableExpression>
+	</variable>
+	<group name="empid">
+		<groupExpression><![CDATA[$F{eid}]]></groupExpression>
+		<groupHeader>
+			<band height="14">
+				<textField>
+					<reportElement uuid="cd57aec3-8103-4454-a092-eb8b488fdf46" isPrintRepeatedValues="false" x="0" y="1" width="117" height="13"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{nym}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement uuid="cc6deb53-f583-4f99-a49a-386b8d16fbaf" x="117" y="1" width="47" height="13" forecolor="#006600"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{sal}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement uuid="abec4a23-7604-42e6-9e07-11c9ed030529" x="0" y="13" width="572" height="1" forecolor="#000000"/>
+					<graphicElement>
+						<pen lineWidth="0.5"/>
+					</graphicElement>
+				</line>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="21">
+				<line>
+					<reportElement uuid="417a6656-c808-48d8-b6c5-e6d3391b1a66" x="0" y="0" width="572" height="1" forecolor="#000000"/>
+					<graphicElement>
+						<pen lineWidth="0.5"/>
+					</graphicElement>
+				</line>
+				<textField pattern="#,##0.00">
+					<reportElement uuid="35b8f30d-67bd-465f-855d-231ad349dbad" x="250" y="1" width="36" height="13"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{otrdtot_1}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement uuid="f59c3e54-721f-4133-81e4-1428ca61f062" x="326" y="1" width="35" height="13"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{otsattot_1}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement uuid="25ea58a5-980d-4a89-919e-45b5a81ca875" x="400" y="1" width="35" height="13"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{otsuntot_1}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement uuid="1e135261-1f89-41e0-9d43-cec74aba8412" x="474" y="0" width="35" height="13"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{othtot_1}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="empid" pattern="#,##0.00">
+					<reportElement uuid="3f6c11c5-a7fa-4232-92c3-a82b3d74330f" x="509" y="0" width="63" height="13"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{otrdtot_1} + $V{otsattot_1} + $V{otsuntot_1}+$V{othtot_1}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="105" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="e2514d52-fa01-446c-bbf6-90ef705f5d3f" x="10" y="25" width="555" height="14"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Bindoy, Negros Oriental]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="47191dbb-fac9-410b-85ff-c0f709a7c109" x="10" y="11" width="555" height="14"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[NEGROS ORIENTAL I ELECTRIC COOPERATIVE, INC.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="c0fc045f-646b-4084-80e2-ce13b3f917e6" x="10" y="43" width="555" height="21"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[OVERTIME DETAILED COMPUTATIONS]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="2611fc74-2620-42df-853c-536ad353dd54" x="452" y="84" width="80" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement uuid="6d2b8e7e-a2d3-4379-bff8-8bf9664fc4d6" x="532" y="84" width="40" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="b52345ea-05cc-46a7-8e58-3b8834dab034" x="10" y="64" width="555" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$P{period}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="25" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="2cc1d4e7-ec6a-43c4-aa1f-470d96ef0e1c" x="0" y="0" width="117" height="25"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NAME OF EMPLOYEE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="e43e852f-ca33-409a-b3a1-5fd831381868" x="164" y="0" width="46" height="25"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DATE RENDERED]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6fcb50b1-a9cc-469b-a4bd-990a0d968c4d" x="210" y="0" width="40" height="25" forecolor="#FF6600"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[REG. DAY (125%)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="7c3e0570-2c4a-474f-ae2e-2fbd6867a3a8" x="287" y="0" width="36" height="25" forecolor="#000099"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SAT. (100%)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="25977eee-0cf9-44bd-b51d-ed889441f97c" x="362" y="0" width="36" height="25" forecolor="#CC0000"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SUN. (130%)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="f10b2217-5a37-49b2-8f8e-b345d711fd8a" x="436" y="0" width="36" height="25" forecolor="#CC00CC"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Holiday (130%)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="df93c6cc-d1ac-4596-81df-2cb48d28b33c" x="250" y="0" width="36" height="25" forecolor="#660000"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RD TOTAL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="1388253a-5aa6-4b79-a8f5-87db8cc02672" x="117" y="0" width="47" height="25"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[BASIC SALARY]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="c42c6a54-ebd7-4cd6-b9f2-bf35a349d115" x="325" y="0" width="36" height="25" forecolor="#660000"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SAT. TOTAL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="ae1da708-8855-4b0e-8d7d-949112aef94b" x="399" y="0" width="36" height="25" forecolor="#660000"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SUN. TOTAL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="2c330238-6591-4c17-8c9e-459bf7fbf0f0" x="474" y="0" width="36" height="25" forecolor="#660000"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Holiday TOTAL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="aab1a4df-800d-4305-bb1d-12f20dbc36b4" x="512" y="0" width="60" height="25"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Overall Total]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="ae7f3391-7096-443a-87b1-7c986f2a01d6" x="0" y="0" width="572" height="1" forecolor="#000000"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement uuid="03e85ebd-34d3-44f7-8f97-0b178a2fad13" x="0" y="24" width="572" height="1" forecolor="#000000"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="13" splitType="Stretch">
+			<textField pattern="dd-MMM-yy">
+				<reportElement uuid="30e55cfa-8457-4fe4-b042-34730286ecfc" x="164" y="0" width="46" height="13"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{log_date}]]></textFieldExpression>
+			</textField>
+			<textField pattern="0">
+				<reportElement uuid="df381d39-8466-4f0e-bc76-4469b056ea65" x="210" y="0" width="40" height="13" forecolor="#FF6600"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{otrd}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="4dd20a84-28ef-49b6-aa2a-450f2b7cfa62" x="287" y="0" width="36" height="13" forecolor="#000099"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{otsat}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="4ee9a1fb-2dbf-4c58-9440-e5c0a856e755" x="362" y="0" width="36" height="13" forecolor="#CC0000"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{otsun}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="aa9eaffc-d094-428e-998e-9e1a6757e400" x="436" y="0" width="36" height="13" forecolor="#CC00CC"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{oth}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="7eb12d39-862e-498b-a7a7-f32cee8bddea" x="250" y="0" width="36" height="13" forecolor="#660000"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{otrdtot}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="6452fce7-9e3d-41e5-be98-eca454f41630" x="325" y="0" width="36" height="13" forecolor="#660000"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{otsattot}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="48e841b1-7fb6-48fd-9c3e-63b43d8b70f8" x="399" y="0" width="36" height="13" forecolor="#660000"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{otsuntot}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="7dd1fb26-f4d2-4e4b-a81e-78f9b8d99282" x="474" y="0" width="36" height="13" forecolor="#660000"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{othtot}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="173" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="99a38845-1c67-4c00-994e-048821a9485a" x="345" y="52" width="162" height="20"/>
+				<textElement>
+					<font isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[REV. MERJOS R. JACULBE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="b25040cc-ea1a-4ae3-bcd3-e67c51d251cf" x="64" y="21" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[Prepared by:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="36c2bdbc-fff1-4637-b387-79a33d7ec609" x="375" y="63" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[HRD Specialist]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="0ae4f910-40f1-4fbb-83ae-2815af05da21" x="207" y="135" width="162" height="20"/>
+				<textElement>
+					<font isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[LYNN D. MANLALANGIT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="48f78ebd-0a11-427e-a4d2-ae69eeb84163" x="238" y="146" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[ISD Manager]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="b17f8799-68fe-42d5-b039-c05f81bc1046" x="65" y="55" width="162" height="20"/>
+				<textElement>
+					<font isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[NICOLIE JOY C. PIALOGO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="f0abe00f-b818-42c0-9e93-43539cdd48fd" x="206" y="100" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[Noted by:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="7e4cf99a-71a4-4e58-81a0-2d277ba785ec" x="81" y="66" width="107" height="20"/>
+				<textElement/>
+				<text><![CDATA[Contractual Employee]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="2a438a21-195a-4172-bf2f-d2f2b10f5318" x="344" y="21" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[Checked by:]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

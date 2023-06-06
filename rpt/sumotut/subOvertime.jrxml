@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="subOvertime" language="groovy" pageWidth="595" pageHeight="842" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="3dfda8da-2f39-45d7-a1e6-08d2488da0e9">
+	<property name="ireport.zoom" value="1.4641000000000006"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="emp_id" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="start_date" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="end_date" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT sum(eotd.ot_hours) FROM emp_ot_details AS eotd WHERE eotd.emp_id = $P{emp_id} AND eotd.ot_date BETWEEN $P{start_date} AND $P{end_date}]]>
+	</queryString>
+	<field name="sum(eotd.ot_hours)" class="java.math.BigDecimal"/>
+	<pageHeader>
+		<band height="11" splitType="Stretch">
+			<textField>
+				<reportElement uuid="0711b965-36d0-4b9a-afff-349b285261d7" x="0" y="0" width="65" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{sum(eotd.ot_hours)} == null) ? 0.00 : $F{sum(eotd.ot_hours)}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+</jasperReport>
