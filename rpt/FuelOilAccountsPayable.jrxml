@@ -1,0 +1,512 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="FuelOilAccountsPayable" language="groovy" pageWidth="595" pageHeight="842" columnWidth="569" leftMargin="13" rightMargin="13" topMargin="20" bottomMargin="20" uuid="886bbbd3-f196-4193-a2f6-75d099f7df61">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="195"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\JavaProjects\\ValeIssuance\\rpt\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="startdate" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="enddate" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="user" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+   a.acct_id,
+   # a.title,
+  t.createddate,d.dept_abbreviation,t.ornumber,
+  v.description,
+    SUM(CASE WHEN f.fuel_id = 1 THEN t.trans_amt ELSE 0 END) AS diesel,
+    SUM(CASE WHEN f.fuel_id = 2 THEN t.trans_amt ELSE 0 END) AS gas,
+    SUM(CASE WHEN f.fuel_id = 3 THEN t.trans_amt ELSE 0 END) AS oil,
+	SUM(CASE WHEN f.fuel_id = 5 THEN t.trans_amt ELSE 0 END) AS others,
+   a.code
+FROM
+    transaction t
+INNER JOIN
+    accounts a ON t.acct_id = a.acct_id
+INNER JOIN
+    vehicle v ON v.vehicle_id = t.vehicle_id
+INNER JOIN
+    fuel f ON f.fuel_id = v.fuel_id
+INNER JOIN
+    department d ON d.dept_id = v.dept_id
+WHERE t.createddate BETWEEN  $P{startdate} AND $P{enddate} and status_id=33
+GROUP BY
+    #a.acct_id, a.title;
+    t.createddate,t.ornumber,v.vehicle_id
+order by ornumber]]>
+	</queryString>
+	<field name="acct_id" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="createddate" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="dept_abbreviation" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ornumber" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="description" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="diesel" class="java.math.BigDecimal"/>
+	<field name="gas" class="java.math.BigDecimal"/>
+	<field name="oil" class="java.math.BigDecimal"/>
+	<field name="others" class="java.math.BigDecimal"/>
+	<field name="code" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<variable name="gas_1" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{gas}]]></variableExpression>
+	</variable>
+	<variable name="diesel_1" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{diesel}]]></variableExpression>
+	</variable>
+	<variable name="oil_1" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{oil}]]></variableExpression>
+	</variable>
+	<variable name="others_1" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{others}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="71" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="5a4f2b89-4aaa-4677-a216-9f292b571fa3" x="0" y="0" width="569" height="14"/>
+				<textElement textAlignment="Center">
+					<font fontName="Bahnschrift" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NEGROS ORIENTAL I ELECTRIC COOPERATIVE, INC. ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="582f7831-fc86-46c7-88b5-c910d852ba18" x="0" y="14" width="569" height="14"/>
+				<textElement textAlignment="Center">
+					<font fontName="Bahnschrift" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Bindoy, Negros Oriental]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="2321dc46-5c86-4596-9b40-a969fe55f0d8" x="0" y="28" width="569" height="14"/>
+				<textElement textAlignment="Center">
+					<font fontName="Bahnschrift" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FUEL/OIL ACCOUNTS PAYABLE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="0f990d58-d5fa-4625-a632-cdffacc9e50f" x="201" y="42" width="33" height="14"/>
+				<textElement>
+					<font fontName="Bahnschrift" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[From]]></text>
+			</staticText>
+			<textField pattern="MMMMM dd, yyyy">
+				<reportElement uuid="19c70e8b-b57e-4e10-8541-c16be8203e1a" x="234" y="42" width="60" height="14"/>
+				<textElement textAlignment="Right">
+					<font isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.SimpleDateFormat("MM/dd/yyyy").format(new java.text.SimpleDateFormat("yyyy-MM-dd").parse($P{startdate}))]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="abd2ebab-0829-43d1-b358-3aaabb8f7895" x="294" y="42" width="26" height="14"/>
+				<textElement textAlignment="Center">
+					<font fontName="Bahnschrift" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[To]]></text>
+			</staticText>
+			<textField pattern="MMMMM dd, yyyy">
+				<reportElement uuid="0f3dc5dc-a3f2-4876-add8-0fff7f3b6bcb" x="320" y="42" width="60" height="14"/>
+				<textElement>
+					<font isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.SimpleDateFormat("MM/dd/yyyy").format(new java.text.SimpleDateFormat("yyyy-MM-dd").parse($P{enddate}))]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="22" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="68af99d1-db20-4d1d-809a-0d9c3bf0655c" x="0" y="0" width="60" height="20"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="4b7d63d6-5853-44ac-b3f4-f851b67204b8" x="60" y="0" width="60" height="20"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Department]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="3203dde9-b42d-4ee2-a2dc-32db5bc0e609" x="120" y="0" width="74" height="20"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[OR Number]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="92900faf-ac6b-4a4c-bcda-c9d59aa3a9d4" x="194" y="0" width="100" height="20"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Vehicle]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="cf461142-8755-46b2-bd68-d6423a2f4b4e" x="294" y="0" width="55" height="20"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Diesel]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6764f22a-4d99-4a02-a2a8-4f388a1dce9a" x="349" y="0" width="55" height="20"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Gas]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="c85b5298-d38e-41ef-9196-f43d08409740" x="404" y="0" width="50" height="20"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[oil]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6e43f073-320a-4369-877e-9d0a8a596bf7" x="454" y="0" width="50" height="20"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[others]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="06a9d122-9650-4103-99fe-5819756fd15e" x="504" y="0" width="65" height="20"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Acct Code]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField pattern="MM/dd/yyyy">
+				<reportElement uuid="7f73136a-1719-4f3c-b111-563547579989" x="0" y="0" width="60" height="20"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{createddate}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="2fc64357-351f-4802-8c14-8990253318ef" x="120" y="0" width="74" height="20"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{ornumber}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="e54cfb46-5c93-4fb8-bb74-d04a19f30402" x="194" y="0" width="100" height="20"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{description}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="db31a194-83b8-41b5-9f08-3c107a494b56" x="294" y="0" width="55" height="20"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{diesel}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="912f22ca-d00f-4013-b14f-2d2c3d34f141" x="349" y="0" width="55" height="20"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{gas}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="379a89b2-b0b5-4008-84c4-558ce977137f" x="60" y="0" width="60" height="20"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{dept_abbreviation}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="24cd32e6-a067-4318-ad37-b041a8f30b78" x="404" y="0" width="50" height="20"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{oil}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="a6e40fe5-03fa-404a-9573-dc40a744a415" x="454" y="0" width="50" height="20"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{others}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="a7d1bc22-2c04-4639-9304-3c8c581e8e2b" x="504" y="0" width="65" height="20"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{code}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<lastPageFooter>
+		<band height="114">
+			<staticText>
+				<reportElement uuid="88ee1ca6-9c9b-4d39-8241-fe6fe1479ccc" x="0" y="0" width="60" height="17"/>
+				<textElement/>
+				<text><![CDATA[Prepared by:]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="71a86813-5f56-4df1-ba80-879ee6d9a368" x="60" y="17" width="127" height="16"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{user}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="a6013415-35e8-4b56-9808-7d5f1c1241f7" x="60" y="33" width="127" height="16"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Stock Analyst]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="467ba4e6-5246-4562-a050-ce78972e65b2" x="344" y="0" width="60" height="17"/>
+				<textElement/>
+				<text><![CDATA[Noted by:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="c3c417a7-4417-4b86-9f6e-9d5b461f7937" x="404" y="17" width="127" height="17"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nick Sherwin E. Llena]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="f9faac5c-f3f6-4de9-863a-5f59cc4115a6" x="404" y="34" width="127" height="17"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Finance Services Manager]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="e3fa20fd-189c-46bc-9e70-5b33ceacee6b" x="0" y="62" width="60" height="17"/>
+				<textElement/>
+				<text><![CDATA[Checked by:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="74af946a-0f0b-4e79-a3ec-6d54aeef32cf" x="60" y="79" width="127" height="17"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Garnet C. Iso]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="27982322-a088-4a7c-a1d4-c8b21b53f00d" x="60" y="96" width="127" height="17"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Internal Audit Manager]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="95af3223-e7cf-4ca2-b7eb-19852dea9015" x="404" y="79" width="127" height="17"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Engr. Elvin A. Dennoyo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="988e6699-03b7-4637-9c07-356885fa728c" x="344" y="62" width="60" height="17"/>
+				<textElement/>
+				<text><![CDATA[Approved by:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="ee9f59aa-dd51-408d-b774-62034d45ec16" x="404" y="96" width="127" height="17"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[General Manager]]></text>
+			</staticText>
+		</band>
+	</lastPageFooter>
+	<summary>
+		<band height="121" splitType="Stretch">
+			<line>
+				<reportElement uuid="13d48e52-c697-430e-b1eb-412e27f58ceb" x="0" y="0" width="570" height="1"/>
+			</line>
+			<subreport>
+				<reportElement uuid="1b92493c-f47a-40c2-be86-109603c1d460" x="0" y="21" width="200" height="98"/>
+				<subreportParameter name="d1">
+					<subreportParameterExpression><![CDATA[$P{startdate}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="d2">
+					<subreportParameterExpression><![CDATA[$P{enddate}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "FuelOilAccountsPayable_subreport1.jasper"]]></subreportExpression>
+			</subreport>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="f293abe0-b575-4188-a0e4-b0a5a56d95b7" x="349" y="0" width="55" height="20"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{gas_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="e7f5cd1c-36c6-4f9a-8189-f8dcd6454d27" x="294" y="0" width="55" height="20"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{diesel_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="7a64aea5-d747-4b19-888d-3fa73820af6c" x="404" y="0" width="50" height="20"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{oil_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="c0486478-78e1-4df4-bbd2-fb3a481e8963" x="454" y="0" width="50" height="20"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{others_1}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="86933712-6a3d-4d2d-a324-7c8930dcf9b7" x="194" y="1" width="100" height="20"/>
+				<textElement>
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

@@ -20,6 +20,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import Connection.DBConn;
+import static Reports.FuelAccountsPayable.fname;
+import static Reports.FuelAccountsPayable.userid;
 import org.joda.time.DateTime;
 import org.joda.time.Period;
 import org.joda.time.format.DateTimeFormat;
@@ -28,11 +30,12 @@ import org.joda.time.format.DateTimeFormatter;
 public class functions {
 
     static Statement stmt;
-    static int transid;
-    private String valeNo;
+    static int rowId;
+    static int transId;
     static int userid;
+    private String valeNo;
     
-    public static int getUserID() {
+    public int getUserID() {
         return userid;
     }
 
@@ -40,18 +43,56 @@ public class functions {
         this.userid = userid;
     }
     
+    public int getRowID() {   //getters
+        return rowId;
+    }
+
+    public void setRowID(Integer id) {   //setters
+        this.rowId = id;
+    }
+    
     public int getTransID() {   //getters
-        return transid;
+        return transId;
     }
 
     public void setTransID(Integer id) {   //setters
-        this.transid = id;
+        this.transId = id;
     }
 
-    public String getValeNo() {
-        return valeNo;
+    public static String GetUser(int userid) {
+
+//        functions fuid = new functions();
+//        fuid.setUserID(userid);
+        //JOptionPane.showMessageDialog(null, userid);
+
+        Connection conn = DBConn.getConnection();
+        String createString;
+        createString = "SELECT Full_Name FROM User WHERE user_id=" + userid;
+
+        //int rc = 0;
+        try {
+            stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(createString);
+
+            while (rs.next()) {
+                fname = rs.getString(1);
+                //gender = rs.getInt(2);
+            }
+
+            //JOptionPane.showMessageDialog(null, fname);
+
+            stmt.close();
+            conn.close();
+
+        } catch (Exception e) {
+            e.getStackTrace();
+        }
+        
+        return fname;
     }
 
+    
+    
     public static String getSystemInfo() {
         String sys = null;
         boolean is64bit = false;
@@ -92,7 +133,8 @@ public class functions {
 
         Connection conn = DBConn.getConnection();
         String createString;
-        createString = "SELECT CURDATE() AS NowDate";
+        //createString = "SELECT CURDATE() AS NowDate";
+        createString = "SELECT sysdate() AS NowDate";
         //int rc = 0;
         try {
             stmt = conn.createStatement();
@@ -388,8 +430,9 @@ public class functions {
         } catch (ParseException ex) {
             Logger.getLogger(functions.class.getName()).log(Level.SEVERE, null, ex);
         }
-return output;
+        return output;
     }
+    
     public static String getDatewTym() {
         DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy kk:mm:ss");
         Date date = new Date();

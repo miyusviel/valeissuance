@@ -9,8 +9,13 @@ import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import Connection.DBConn;
-import Others.mdi;
+import Others.UserContext;
+import Others.main_menu;
 import Others.functions;
+import Others.image_attribution;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class login extends javax.swing.JFrame {
 
@@ -19,10 +24,15 @@ public class login extends javax.swing.JFrame {
 
     public login() {
         initComponents();
+        try {
+            imageCredits();
+        } catch (IOException ex) {
+            Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
+        }
         setLocationRelativeTo(this);
         getRootPane().setDefaultButton(cmdlogin);
         // this.setSize(548, 342);
-       // lblsys.setText(myFunction.getSystemInfo());
+        // lblsys.setText(myFunction.getSystemInfo());
     }
 
     boolean IsValidUser(String uname, String pword) {
@@ -87,19 +97,21 @@ public class login extends javax.swing.JFrame {
 
         jDesktopPane1 = new javax.swing.JDesktopPane();
         jToolBar1 = new javax.swing.JToolBar();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
         txtuname = new javax.swing.JTextField();
         txtpword = new javax.swing.JPasswordField();
         cmdlogin = new javax.swing.JButton();
         cmdexit = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
 
         jToolBar1.setRollover(true);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("User Login");
+        setTitle("VFSI - User Login");
+        setBackground(new java.awt.Color(255, 255, 255));
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
@@ -107,16 +119,21 @@ public class login extends javax.swing.JFrame {
             }
         });
 
-        jLabel2.setText("Password:");
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel1.setText("Username");
 
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/logonew1.png"))); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel2.setText("Password");
+
+        jLabel4.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/VFIS Logo.gif"))); // NOI18N
+        jLabel4.setToolTipText("");
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(0, 102, 204));
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel5.setText("Version 2.25 2017-10-12");
-
-        jLabel1.setText("Username:");
+        jLabel5.setText("Version 0.1 7-13-2023");
 
         txtuname.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         txtuname.setForeground(new java.awt.Color(51, 51, 51));
@@ -134,7 +151,7 @@ public class login extends javax.swing.JFrame {
             }
         });
 
-        cmdlogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/save.png"))); // NOI18N
+        cmdlogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/login_32.png"))); // NOI18N
         cmdlogin.setMnemonic('L');
         cmdlogin.setText("Login");
         cmdlogin.addActionListener(new java.awt.event.ActionListener() {
@@ -143,7 +160,7 @@ public class login extends javax.swing.JFrame {
             }
         });
 
-        cmdexit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/remove.png"))); // NOI18N
+        cmdexit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/logout_32.png"))); // NOI18N
         cmdexit.setMnemonic('x');
         cmdexit.setText("Exit");
         cmdexit.addActionListener(new java.awt.event.ActionListener() {
@@ -152,49 +169,55 @@ public class login extends javax.swing.JFrame {
             }
         });
 
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 30)); // NOI18N
+        jLabel3.setText("Welcome Back!");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(38, 38, 38)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(1, 1, 1)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(cmdlogin, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cmdexit, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(txtuname, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 251, Short.MAX_VALUE)
-                        .addComponent(txtpword, javax.swing.GroupLayout.Alignment.LEADING))))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addComponent(jLabel3)
+                        .addContainerGap()
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(64, 64, 64)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtuname)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtpword)
+                            .addComponent(cmdlogin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(cmdexit, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addGap(16, 16, 16)))))
+                .addGap(67, 67, 67)
+                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(22, 22, 22)
+                .addGap(52, 52, 52)
                 .addComponent(jLabel3)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(txtuname, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(39, 39, 39)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtpword, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cmdlogin, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cmdexit, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
-                .addComponent(jLabel5)
-                .addContainerGap())
+                .addComponent(txtuname, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtpword, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(29, 29, 29)
+                .addComponent(cmdlogin, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(cmdexit, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel5))
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 506, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         txtuname.getAccessibleContext().setAccessibleName("");
@@ -224,18 +247,22 @@ public class login extends javax.swing.JFrame {
             //GET USER ID
             int uid = GetUserID(uname, md5pword);
 
-            //PASS VARIABLE TO MDI CLASS
-            mdi.userid = uid;
+            //Pass UID to Functions Class
+            functions fuid = new functions();
+            fuid.setUserID(uid);
 
-//            GetFnameAndGender(uname, md5pword);
-//            mdi.fname = fname;
-//            mdi.gender = gender;
+            //To retain user ID everywhere
+            
+            Integer userId = uid; // Retrieved from login process
+            UserContext.getInstance().setUserId(userId);
+            
+            
             this.dispose();
             try {
                 try {
                     try {
                         JFrame frame;
-                        frame = (JFrame) Class.forName("Others.mdi").newInstance();
+                        frame = (JFrame) Class.forName("Others.main_menu").newInstance();
                         frame.setIconImage(Toolkit.getDefaultToolkit().getImage("ico.png"));
                         frame.setVisible(true);
                     } catch (IllegalAccessException ex) {
@@ -262,6 +289,20 @@ public class login extends javax.swing.JFrame {
         txtuname.selectAll();
     }//GEN-LAST:event_txtunameFocusGained
 
+    public void imageCredits() throws FileNotFoundException, IOException {
+        //image_attribution image1 = new image_attribution("login_32", "C:\\JavaProjects\\ValeIssuance\\src\\images", new FileInputStream("/images/login_32.png"));
+        //image1.attributes.put("author", "VectorPortal");
+        FileInputStream fis = new FileInputStream("C:\\JavaProjects\\ValeIssuance\\src\\images\\login_32.png");
+        image_attribution image1 = new image_attribution("login_32", "C:\\JavaProjects\\ValeIssuance\\src\\images", fis);
+        //System.out.println(image1.getAttribution());
+
+        //image_attribution image2 = new image_attribution("logout_32", "https://www.freepik.com/icon/logout_4400828#position=41&page=1&term=exit&fromView=search", new FileInputStream("images/logout_32.png"));
+        //image2.attributes.put("author", "Freepik");
+        FileInputStream fis2 = new FileInputStream("C:\\JavaProjects\\ValeIssuance\\src\\images\\logout_32.png");
+        image_attribution image2 = new image_attribution("logout_32", "C:\\JavaProjects\\ValeIssuance\\src\\images", fis2);
+        //System.out.println(image2.getAttribution());
+    }
+
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -276,6 +317,7 @@ public class login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JPasswordField txtpword;

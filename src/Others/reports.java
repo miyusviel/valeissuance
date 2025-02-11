@@ -7,108 +7,97 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import Connection.DBConn;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.sql.Date;
+import java.sql.SQLException;
+import javax.swing.JDialog;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.swing.JRViewer;
 import net.sf.jasperreports.view.JasperViewer;
 
 public class reports {
-
-    public static void rptBoot() throws FileNotFoundException, IOException {
-               try {
-            JasperReport jasperReport;
-
-            JasperPrint jPrint;
-
-            //parameters
-            HashMap parameters = new HashMap();
-
-            jasperReport = JasperCompileManager.compileReport("rpt/rptboot.jrxml");
-
-          
-          jPrint= JasperFillManager.fillReport(jasperReport, parameters, DBConn.getConnection());
-            //JasperExportManager.exportReportToPdf(jPrint);
-        } catch (JRException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
-            return;
-        }
-    }
-
-    public static void rptLeaveApp(String leave_type, int id, String dept, String shift, String dm, String gm, double credits, double bal) throws FileNotFoundException, IOException {
+ public static void rptFuelAccountPayable(String startdate, String enddate,String user) {
+    //by Rey D. Repe
         try {
             JasperReport jasperReport;
             JasperPrint jPrint;
 
             //parameters
             HashMap parameters = new HashMap();
-            parameters.put("leavetype", leave_type);
-            parameters.put("id", id);
-            parameters.put("dept", dept);
-            parameters.put("shift", shift);
-            parameters.put("dm", dm);
-            parameters.put("gm", gm);
-            parameters.put("credits", credits);
-            parameters.put("bal", bal);
+            //parameters.put("batchID", param);
+            parameters.put("startdate", startdate);
+            parameters.put("enddate", enddate);
+            parameters.put("user", user);
+            
+            //JOptionPane.showMessageDialog(null,user);
 
-            jasperReport = JasperCompileManager.compileReport("rpt/rptLeaveApp.jrxml");
+            jasperReport = JasperCompileManager.compileReport(".//rpt/FuelOilAccountsPayable.jrxml"); //".\\rpt/rptVolumeByDriver2.jrxml"
 
             jPrint = JasperFillManager.fillReport(jasperReport, parameters, DBConn.getConnection());
 
-            JasperViewer Viewer = new JasperViewer(jPrint, false);
-            //JasperExportManager.exportReportToPdf(jPrint);
-            Viewer.setTitle("Leave Application Report");
-            Viewer.setExtendedState(Viewer.getExtendedState() | Viewer.MAXIMIZED_BOTH);
-            Viewer.setVisible(true);
-//            OutputStream output = new FileOutputStream(new File("rpt/rpt0001.pdf"));
-//            JasperExportManager.exportReportToPdfStream(jPrint, output);
-//
-//            output.flush();
-//            output.close();
-//
-//            try {
-//                File pdfFile = new File("rpt/rpt0001.pdf");
-//                if (pdfFile.exists()) {
-//
-//                    if (Desktop.isDesktopSupported()) {
-//                        Desktop.getDesktop().open(pdfFile);
-//                    } else {
-//                    }
-//                } else {
-//                }
-//            } catch (Exception ex) {
-//                ex.printStackTrace();
-//            }
+            JRViewer aViewer = new JRViewer(jPrint);
+            JDialog aFrame = new JDialog(new javax.swing.JFrame(), true);
+            aFrame.getContentPane().add(aViewer);
+            java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+            aFrame.setSize(screenSize.width, screenSize.height);
+            java.awt.Insets insets = aFrame.getInsets();
+            aFrame.setSize(aFrame.getWidth() + insets.left + insets.right, aFrame.getHeight() + insets.top + insets.bottom + 20);
+            aFrame.setLocation((screenSize.width - aFrame.getWidth()) / 2, (screenSize.height - aFrame.getHeight()) / 2);
+            aFrame.setVisible(true);
+
+            try {
+                DBConn.getConnection().close();
+            } catch (SQLException ex) {
+                Logger.getLogger(reports.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
         } catch (JRException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
             return;
 
         }
 
-    }//
-
-    public static void rptOTApp(int otaid, String pos, String rid, String rpos) {
+    }
+ 
+    public static void rptTopVolumebyVehicle(String startdate, String enddate) {
+    //by Rey D. Repe
         try {
             JasperReport jasperReport;
             JasperPrint jPrint;
 
             //parameters
             HashMap parameters = new HashMap();
-            parameters.put("id", otaid);
-            parameters.put("pos", pos);
-            parameters.put("rname", rid);
-            parameters.put("rpos", rpos);
+            //parameters.put("batchID", param);
+            parameters.put("startdate", startdate);
+            parameters.put("enddate", enddate);
+            
+            //JOptionPane.showMessageDialog(null,startdate);
 
-            jasperReport = JasperCompileManager.compileReport("rpt/overtime/rptOvertime.jrxml");
+            jasperReport = JasperCompileManager.compileReport(".//rpt/rptTopVolumeByVehicle.jrxml"); //".\\rpt/rptVolumeByDriver2.jrxml"
 
-        jPrint = JasperFillManager.fillReport(jasperReport, parameters, DBConn.getConnection());
+            jPrint = JasperFillManager.fillReport(jasperReport, parameters, DBConn.getConnection());
 
-            JasperViewer Viewer = new JasperViewer(jPrint, false);
-            //JasperExportManager.exportReportToPdf(jPrint);
-            Viewer.setTitle("Overtime Authorization");
-            Viewer.setExtendedState(Viewer.getExtendedState() | Viewer.MAXIMIZED_BOTH);
-            Viewer.setVisible(true);
+            JRViewer aViewer = new JRViewer(jPrint);
+            JDialog aFrame = new JDialog(new javax.swing.JFrame(), true);
+            aFrame.getContentPane().add(aViewer);
+            java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+            aFrame.setSize(screenSize.width, screenSize.height);
+            java.awt.Insets insets = aFrame.getInsets();
+            aFrame.setSize(aFrame.getWidth() + insets.left + insets.right, aFrame.getHeight() + insets.top + insets.bottom + 20);
+            aFrame.setLocation((screenSize.width - aFrame.getWidth()) / 2, (screenSize.height - aFrame.getHeight()) / 2);
+            aFrame.setVisible(true);
+
+            try {
+                DBConn.getConnection().close();
+            } catch (SQLException ex) {
+                Logger.getLogger(reports.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
         } catch (JRException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
             return;
@@ -117,446 +106,122 @@ public class reports {
 
     }
 
-    public static void rptPayslip(int ppid, String desc) throws FileNotFoundException, IOException {
+    public static void rptVolumeByVehicle(String type) {
         try {
             JasperReport jasperReport;
             JasperPrint jPrint;
+            String jrxmlPath;
 
-            //parameters
-            HashMap parameters = new HashMap();
-            parameters.put("ppid", ppid);
-            parameters.put("desc", desc);
+            // Parameters
+            HashMap<String, Object> parameters = new HashMap<>();
+            parameters.put("rpttype", type);
 
-            jasperReport = JasperCompileManager.compileReport("rpt/payslip/rptPayslip.jrxml");
+            if ("Vehicle".equals(type)) {
+                jrxmlPath = ".\\rpt/rptVolumeByVehicle.jrxml";
+            } else if ("Driver".equals(type)) {
+                jrxmlPath = ".\\rpt/rptVolumeByDriver2.jrxml";
+            } else if ("Supplier".equals(type)) {
+                jrxmlPath = ".\\rpt/rptVolumeBySupplier.jrxml";
+            } else if ("Account".equals(type)) {
+                jrxmlPath = ".\\rpt/rptVolumeByAccount.jrxml";
+            } else {
+                // Handle any other cases or provide a default path
+                jrxmlPath = ".\\rpt/rptVolumeByDriver2.jrxml";
+            }
 
-            jPrint = JasperFillManager.fillReport(jasperReport, parameters, DBConn.getConnection());
+            try {
+                jasperReport = JasperCompileManager.compileReport(jrxmlPath);
+            } catch (JRException e) {
+                JOptionPane.showMessageDialog(null, "Error loading the report template.");
+                e.printStackTrace();
+                return;
+            }
 
-            JasperViewer Viewer = new JasperViewer(jPrint, false);
-            //JasperExportManager.exportReportToPdf(jPrint);
-            Viewer.setTitle("Employees Payslip");
-            Viewer.setExtendedState(Viewer.getExtendedState() | Viewer.MAXIMIZED_BOTH);
-            Viewer.setVisible(true);
-//            OutputStream output = new FileOutputStream(new File("rpt/rpt0001.pdf"));
-//            JasperExportManager.exportReportToPdfStream(jPrint, output);
-//
-//            output.flush();
-//            output.close();
-//
-//            try {
-//                File pdfFile = new File("rpt/rpt0001.pdf");
-//                if (pdfFile.exists()) {
-//
-//                    if (Desktop.isDesktopSupported()) {
-//                        Desktop.getDesktop().open(pdfFile);
-//                    } else {
-//                    }
-//                } else {
-//                }
-//            } catch (Exception ex) {
-//                ex.printStackTrace();
-//            }
-        } catch (JRException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
-            return;
+            try {
+                jPrint = JasperFillManager.fillReport(jasperReport, parameters, DBConn.getConnection());
+            } catch (JRException e) {
+                JOptionPane.showMessageDialog(null, "Error generating the report.");
+                e.printStackTrace();
+                return;
+            }
 
+            JasperViewer viewer = new JasperViewer(jPrint, false);
+            viewer.setTitle("Volume by " + type + " Summary");
+            viewer.setExtendedState(viewer.getExtendedState() | JasperViewer.MAXIMIZED_BOTH);
+            viewer.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosed(WindowEvent e) {
+                    try {
+                        // Close the database connection when the viewer is closed
+                        DBConn.getConnection().close();
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            });
+
+            JRViewer aViewer = new JRViewer(jPrint);
+
+            JDialog aFrame = new JDialog(new javax.swing.JFrame(), true);
+            aFrame.getContentPane().add(aViewer);
+            java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+            aFrame.setSize(screenSize.width, screenSize.height);
+            java.awt.Insets insets = aFrame.getInsets();
+            aFrame.setSize(aFrame.getWidth() + insets.left + insets.right, aFrame.getHeight() + insets.top + insets.bottom + 20);
+            aFrame.setLocation((screenSize.width - aFrame.getWidth()) / 2, (screenSize.height - aFrame.getHeight()) / 2);
+            aFrame.setVisible(true);
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "An unexpected error occurred.");
+            e.printStackTrace();
         }
+    }
 
-    }//
-
-    public static void rptPaySum(int ppid, String desc) throws FileNotFoundException, IOException {
-        try {
-            JasperReport jasperReport;
-            JasperPrint jPrint;
-
-            //parameters
-            HashMap parameters = new HashMap();
-            parameters.put("ppid", ppid);
-            parameters.put("desc", desc);
-
-            jasperReport = JasperCompileManager.compileReport("rpt/paysum/rptPaySummary.jrxml");
-
-            jPrint = JasperFillManager.fillReport(jasperReport, parameters, DBConn.getConnection());
-
-            JasperViewer Viewer = new JasperViewer(jPrint, false);
-            //JasperExportManager.exportReportToPdf(jPrint);
-            Viewer.setTitle("Employees Payroll Summary");
-            Viewer.setExtendedState(Viewer.getExtendedState() | Viewer.MAXIMIZED_BOTH);
-            Viewer.setVisible(true);
-//            OutputStream output = new FileOutputStream(new File("rpt/rpt0001.pdf"));
-//            JasperExportManager.exportReportToPdfStream(jPrint, output);
+    public static void rptVolumeByDriver(String type) {
+//        try {
+//            JasperReport jasperReport;
+//            JasperPrint jPrint;
 //
-//            output.flush();
-//            output.close();
+//            // Parameters
+//            HashMap<String, Object> parameters = new HashMap<>();
+//            parameters.put("rpttype", type);
 //
 //            try {
-//                File pdfFile = new File("rpt/rpt0001.pdf");
-//                if (pdfFile.exists()) {
-//
-//                    if (Desktop.isDesktopSupported()) {
-//                        Desktop.getDesktop().open(pdfFile);
-//                    } else {
-//                    }
-//                } else {
-//                }
-//            } catch (Exception ex) {
-//                ex.printStackTrace();
+//                jasperReport = JasperCompileManager.compileReport(".\\rpt/rptVolumeByDriver.jrxml");
+//            } catch (JRException e) {
+//                JOptionPane.showMessageDialog(null, "Error loading the report template.");
+//                e.printStackTrace();
+//                return;
 //            }
-        } catch (JRException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
-            return;
-
-        }
-
-    }//
-
-    public static void rptLogFail(int flaid) throws FileNotFoundException, IOException {
-        try {
-            JasperReport jasperReport;
-            JasperPrint jPrint;
-
-            //parameters
-            HashMap parameters = new HashMap();
-            parameters.put("id", flaid);
-
-            jasperReport = JasperCompileManager.compileReport("rpt/logfail/rptLogFail.jrxml");
-
-            jPrint = JasperFillManager.fillReport(jasperReport, parameters, DBConn.getConnection());
-
-            JasperViewer Viewer = new JasperViewer(jPrint, false);
-            //JasperExportManager.exportReportToPdf(jPrint);
-            Viewer.setTitle("Failure to Log");
-            Viewer.setExtendedState(Viewer.getExtendedState() | Viewer.MAXIMIZED_BOTH);
-            Viewer.setVisible(true);
-        } catch (JRException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
-            return;
-
-        }
-
+//
+//            try {
+//                jPrint = JasperFillManager.fillReport(jasperReport, parameters, DBConn.getConnection());
+//            } catch (JRException e) {
+//                JOptionPane.showMessageDialog(null, "Error generating the report.");
+//                e.printStackTrace();
+//                return;
+//            }
+//
+//            JasperViewer viewer = new JasperViewer(jPrint, false);
+//            viewer.setTitle("Volume by " + type + " Summary");
+//            viewer.setExtendedState(viewer.getExtendedState() | JasperViewer.MAXIMIZED_BOTH);
+//            viewer.setVisible(true);
+//            viewer.addWindowListener(new WindowAdapter() {
+//                @Override
+//                public void windowClosed(WindowEvent e) {
+//                    try {
+//                        // Close the database connection when the viewer is closed
+//                        DBConn.getConnection().close();
+//                    } catch (SQLException ex) {
+//                        ex.printStackTrace();
+//                    }
+//                }
+//            });
+//        } catch (Exception e) {
+//            JOptionPane.showMessageDialog(null, "An unexpected error occurred.");
+//            e.printStackTrace();
+//            
+//        }
     }
 
-    public static void rptEmpField(int efaid) throws FileNotFoundException, IOException {
-        try {
-            JasperReport jasperReport;
-            JasperPrint jPrint;
-
-            //parameters
-            HashMap parameters = new HashMap();
-            parameters.put("id", efaid);
-
-            jasperReport = JasperCompileManager.compileReport("rpt/fieldemp/rptFieldEmp.jrxml");
-
-            jPrint = JasperFillManager.fillReport(jasperReport, parameters, DBConn.getConnection());
-
-            JasperViewer Viewer = new JasperViewer(jPrint, false);
-            //JasperExportManager.exportReportToPdf(jPrint);
-            Viewer.setTitle("Employees Field");
-            Viewer.setExtendedState(Viewer.getExtendedState() | Viewer.MAXIMIZED_BOTH);
-            Viewer.setVisible(true);
-        } catch (JRException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
-            return;
-
-        }
-
-    }
-
-    public static void rptLeaveCreditBal(int ppid, String usr, String pos, String asof) throws FileNotFoundException, IOException {
-        try {
-            JasperReport jasperReport;
-            JasperPrint jPrint;
-
-            //parameters
-            HashMap parameters = new HashMap();
-            parameters.put("id", ppid);
-            parameters.put("user", usr);
-            parameters.put("pos", pos);
-            parameters.put("asof", asof);
-
-            jasperReport = JasperCompileManager.compileReport("rpt/leavebal/rptLeaveCreditBal.jrxml");
-
-            jPrint = JasperFillManager.fillReport(jasperReport, parameters, DBConn.getConnection());
-
-            JasperViewer Viewer = new JasperViewer(jPrint, false);
-            //JasperExportManager.exportReportToPdf(jPrint);
-            Viewer.setTitle("Leave Credit Balance");
-            Viewer.setExtendedState(Viewer.getExtendedState() | Viewer.MAXIMIZED_BOTH);
-            Viewer.setVisible(true);
-        } catch (JRException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
-            return;
-
-        }
-
-    }
-
-    public static void rptDtr(int efaid, String nym, String period, String deptname) throws FileNotFoundException, IOException {
-        try {
-            JasperReport jasperReport;
-            JasperPrint jPrint;
-
-            //parameters
-            HashMap parameters = new HashMap();
-            parameters.put("id", efaid);
-            parameters.put("empname", nym);
-            parameters.put("period", period);
-            parameters.put("deptname", deptname);
-
-            jasperReport = JasperCompileManager.compileReport("rpt/dtr/rptDTR.jrxml");
-
-            jPrint = JasperFillManager.fillReport(jasperReport, parameters, DBConn.getConnection());
-
-            JasperViewer Viewer = new JasperViewer(jPrint, false);
-            //JasperExportManager.exportReportToPdf(jPrint);
-            Viewer.setTitle("Daily Time Record Report");
-            Viewer.setExtendedState(Viewer.getExtendedState() | Viewer.MAXIMIZED_BOTH);
-            Viewer.setVisible(true);
-        } catch (JRException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
-            return;
-
-        }
-
-    }
-
-    public static void main(String[] args) {
-        try {
-            rptDtrAllReg3(58, 3, 2);
-        } catch (IOException ex) {
-            Logger.getLogger(reports.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    public static void rptDtr2Indi(int eid, int ppid, String nym, String dept) throws FileNotFoundException, IOException {
-        try {
-            JasperReport jasperReport;
-            JasperPrint jPrint;
-
-            //parameters
-            HashMap parameters = new HashMap();
-            parameters.put("eid", eid);
-            parameters.put("ppid", ppid);
-            parameters.put("nym", nym);
-            parameters.put("dept", dept);
-
-            jasperReport = JasperCompileManager.compileReport("rpt/dtr/rptDTR2Indi.jrxml");
-
-            jPrint = JasperFillManager.fillReport(jasperReport, parameters, DBConn.getConnection());
-
-            JasperViewer Viewer = new JasperViewer(jPrint, false);
-            //JasperExportManager.exportReportToPdf(jPrint);
-            Viewer.setTitle("Daily Time Record Report");
-            Viewer.setExtendedState(Viewer.getExtendedState() | Viewer.MAXIMIZED_BOTH);
-            Viewer.setVisible(true);
-        } catch (JRException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
-            return;
-        }
-
-    }
-
-    public static void rptDtrAllReg(int ppid, int etype, int eto, int did) throws FileNotFoundException, IOException {
-        try {
-            JasperReport jasperReport;
-            JasperPrint jPrint;
-
-            //parameters
-            HashMap parameters = new HashMap();
-            parameters.put("ppid", ppid);
-            parameters.put("etype", etype);
-            parameters.put("eto", eto);
-            parameters.put("did", did);
-
-            jasperReport = JasperCompileManager.compileReport("rpt/dtr/rptDTRAll.jrxml");
-
-            jPrint = JasperFillManager.fillReport(jasperReport, parameters, DBConn.getConnection());
-
-            JasperViewer Viewer = new JasperViewer(jPrint, false);
-            //JasperExportManager.exportReportToPdf(jPrint);
-            Viewer.setTitle("Daily Time Record Report");
-            Viewer.setExtendedState(Viewer.getExtendedState() | Viewer.MAXIMIZED_BOTH);
-            Viewer.setVisible(true);
-        } catch (JRException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
-            return;
-
-        }
-
-    }
-
-    public static void rptDtrAllReg3(int ppid, int etype, int eto) throws FileNotFoundException, IOException {
-        try {
-            JasperReport jasperReport;
-            JasperPrint jPrint;
-
-            //parameters
-            HashMap parameters = new HashMap();
-            parameters.put("ppid", ppid);
-            parameters.put("etype", etype);
-            parameters.put("eto", eto);
-
-            jasperReport = JasperCompileManager.compileReport("rpt/dtr/rptDTRAll3.jrxml");
-
-            jPrint = JasperFillManager.fillReport(jasperReport, parameters, DBConn.getConnection());
-
-            JasperViewer Viewer = new JasperViewer(jPrint, false);
-            //JasperExportManager.exportReportToPdf(jPrint);
-            Viewer.setTitle("Daily Time Record Report");
-            Viewer.setExtendedState(Viewer.getExtendedState() | Viewer.MAXIMIZED_BOTH);
-            Viewer.setVisible(true);
-        } catch (JRException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
-            return;
-
-        }
-
-    }
-
-    public static void rptSumCon(int startPpId, int endPpId, String desc) throws FileNotFoundException, IOException {
-        try {
-            JasperReport jasperReport;
-            JasperPrint jPrint;
-
-            //parameters
-            HashMap parameters = new HashMap();
-            parameters.put("ppid_start", startPpId);
-            parameters.put("ppid_end", endPpId);
-            parameters.put("desc", desc);
-
-            jasperReport = JasperCompileManager.compileReport("rpt/sumcon/summaryOfContribution.jrxml");
-
-            jPrint = JasperFillManager.fillReport(jasperReport, parameters, DBConn.getConnection());
-
-            JasperViewer Viewer = new JasperViewer(jPrint, false);
-            Viewer.setTitle("Employees Contribution Summary");
-            Viewer.setExtendedState(Viewer.getExtendedState() | Viewer.MAXIMIZED_BOTH);
-            Viewer.setVisible(true);
-        } catch (JRException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
-            return;
-
-        }
-
-    }
-
-    public static void rptSumAppLeave(String startDate, String endDate, String desc) throws FileNotFoundException, IOException {
-        try {
-            JasperReport jasperReport;
-            JasperPrint jPrint;
-
-            //parameters
-            HashMap parameters = new HashMap();
-            parameters.put("START_DATE", startDate);
-            parameters.put("END_DATE", endDate);
-            parameters.put("DESC", desc);
-
-            jasperReport = JasperCompileManager.compileReport("rpt/sumappleave/summaryOfAppliedLeave.jrxml");
-
-            jPrint = JasperFillManager.fillReport(jasperReport, parameters, DBConn.getConnection());
-
-            JasperViewer Viewer = new JasperViewer(jPrint, false);
-            Viewer.setTitle("Employees Applied Leave of Absence Summary");
-            Viewer.setExtendedState(Viewer.getExtendedState() | Viewer.MAXIMIZED_BOTH);
-            Viewer.setVisible(true);
-        } catch (JRException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
-            return;
-        }
-    }//
-
-    public static void rptSumPerAtt(int ppId, String lbl) throws FileNotFoundException, IOException {
-        try {
-            JasperReport jasperReport;
-            JasperPrint jPrint;
-
-            //parameters
-            HashMap parameters = new HashMap();
-            parameters.put("pp_id", ppId);
-            parameters.put("DESC", lbl);
-
-            jasperReport = JasperCompileManager.compileReport("rpt/sumperatt/summaryOfPerfectAttendance.jrxml");
-
-            jPrint = JasperFillManager.fillReport(jasperReport, parameters, DBConn.getConnection());
-
-            JasperViewer Viewer = new JasperViewer(jPrint, false);
-            Viewer.setTitle("Employees 100% Attendance Summary");
-            Viewer.setExtendedState(Viewer.getExtendedState() | Viewer.MAXIMIZED_BOTH);
-            Viewer.setVisible(true);
-        } catch (JRException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
-            return;
-        }
-    }
-
-    public static void rptOTCalc(int pid, String period) throws FileNotFoundException, IOException {
-        try {
-            JasperReport jasperReport;
-            JasperPrint jPrint;
-
-            //parameters
-            HashMap parameters = new HashMap();
-            parameters.put("ppid", pid);
-            parameters.put("period", period);
-
-            jasperReport = JasperCompileManager.compileReport("rpt/calculate_hours/rptOTComputation.jrxml");
-
-            jPrint = JasperFillManager.fillReport(jasperReport, parameters, DBConn.getConnection());
-
-            JasperViewer Viewer = new JasperViewer(jPrint, false);
-            Viewer.setTitle("Overtime Detailed Computation");
-            Viewer.setExtendedState(Viewer.getExtendedState() | Viewer.MAXIMIZED_BOTH);
-            Viewer.setVisible(true);
-        } catch (JRException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
-            return;
-        }
-    }
-
-    public static void rptUTCalc(int pid, String period) throws FileNotFoundException, IOException {
-        try {
-            JasperReport jasperReport;
-            JasperPrint jPrint;
-
-            //parameters
-            HashMap parameters = new HashMap();
-            parameters.put("ppid", pid);
-            parameters.put("period", period);
-
-            jasperReport = JasperCompileManager.compileReport("rpt/calculate_hours/rptUTComputation.jrxml");
-
-            jPrint = JasperFillManager.fillReport(jasperReport, parameters, DBConn.getConnection());
-
-            JasperViewer Viewer = new JasperViewer(jPrint, false);
-            Viewer.setTitle("Undertime Detailed Computation");
-            Viewer.setExtendedState(Viewer.getExtendedState() | Viewer.MAXIMIZED_BOTH);
-            Viewer.setVisible(true);
-        } catch (JRException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
-            return;
-        }
-    }
-
-    public static void rptSummaryOTUT(int pid, String period) throws FileNotFoundException, IOException {
-        try {
-            JasperReport jasperReport;
-            JasperPrint jPrint;
-
-            //parameters
-            HashMap parameters = new HashMap();
-            parameters.put("ppid", pid);
-            parameters.put("period", period);
-
-            jasperReport = JasperCompileManager.compileReport("rpt/calculate_hours/rptOTUTSummary.jrxml");
-
-            jPrint = JasperFillManager.fillReport(jasperReport, parameters, DBConn.getConnection());
-
-            JasperViewer Viewer = new JasperViewer(jPrint, false);
-            Viewer.setTitle("Undertime and Overtime Calculation Summary");
-            Viewer.setExtendedState(Viewer.getExtendedState() | Viewer.MAXIMIZED_BOTH);
-            Viewer.setVisible(true);
-        } catch (JRException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
-            return;
-        }
-    }
 }

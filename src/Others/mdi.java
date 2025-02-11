@@ -30,11 +30,14 @@ public final class mdi extends javax.swing.JFrame {
 
     public mdi() {
         initComponents();
+         this.setLocationRelativeTo(null);
 //        setIcon();
         LoadStandardMenus(this);
         LoadMainMenus();
-        this.setExtendedState(this.getExtendedState() | mdi.MAXIMIZED_BOTH); //set JFrame maximized
         showuser();
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setExtendedState(this.getExtendedState() | this.MAXIMIZED_BOTH); //set JFrame maximized
+        
 
     }
 
@@ -280,7 +283,7 @@ public final class mdi extends javax.swing.JFrame {
         mnubr = new javax.swing.JMenuBar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Payroll System - NORECO I");
+        setTitle("Vale Fuel Issuance System - NORECO I");
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
@@ -292,23 +295,23 @@ public final class mdi extends javax.swing.JFrame {
         lbluser.setText("Welcome!");
         jToolBar1.add(lbluser);
 
+        myDesktop.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
         bck.setBackground(new java.awt.Color(204, 204, 204));
 
         javax.swing.GroupLayout bckLayout = new javax.swing.GroupLayout(bck);
         bck.setLayout(bckLayout);
         bckLayout.setHorizontalGroup(
             bckLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 250, Short.MAX_VALUE)
+            .addGap(0, 840, Short.MAX_VALUE)
         );
         bckLayout.setVerticalGroup(
             bckLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 190, Short.MAX_VALUE)
+            .addGap(0, 310, Short.MAX_VALUE)
         );
 
-        myDesktop.add(bck);
-        bck.setBounds(40, 30, 250, 190);
-        myDesktop.add(jLabel1);
-        jLabel1.setBounds(0, -20, 840, 330);
+        myDesktop.add(bck, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 840, 310));
+        myDesktop.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -20, 840, 330));
 
         setJMenuBar(mnubr);
 
@@ -316,13 +319,13 @@ public final class mdi extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 395, Short.MAX_VALUE)
+            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(myDesktop)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(myDesktop, javax.swing.GroupLayout.DEFAULT_SIZE, 355, Short.MAX_VALUE)
+                .addComponent(myDesktop)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
         );

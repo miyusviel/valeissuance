@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.5.final using JasperReports Library version 6.20.5-3efcf2e67f959db3888d79f73dde2dbd7acb4f8e  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptVolumeByVehicle" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="2d13fa32-0692-48ed-9c22-7f8276d4fdbb">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MySQL - JDBC"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="rpttype" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT t.supplier_id, s.name, COALESCE( SUM(t.volrequested), 0) AS sumreq, COALESCE( SUM(t.volgiven), 0) AS sumgiven, COALESCE( COUNT(t.trans_id), 0) AS counttrans 
+FROM transaction t 
+INNER JOIN vehicle v ON v.vehicle_id = t.vehicle_id 
+INNER JOIN fuel f ON f.fuel_id = t.fuel_id 
+INNER JOIN accounts a ON a.acct_id = t.acct_id 
+INNER JOIN employee e ON e.emp_id = t.emp_id 
+INNER JOIN suppliers s ON s.supplier_id = t.supplier_id 
+INNER JOIN destination d ON d.town_id = t.town_id 
+INNER JOIN user u ON u.user_id = t.user_id 
+INNER JOIN document_status ds ON ds.doc_status_id = t.status_id 
+GROUP BY t.supplier_id, s.name]]>
+	</queryString>
+	<field name="supplier_id" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="vehicle_id"/>
+		<property name="com.jaspersoft.studio.field.label" value="vehicle_id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="transaction"/>
+	</field>
+	<field name="name" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="description"/>
+		<property name="com.jaspersoft.studio.field.label" value="description"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="vehicle"/>
+	</field>
+	<field name="sumreq" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="sumreq"/>
+		<property name="com.jaspersoft.studio.field.label" value="sumreq"/>
+	</field>
+	<field name="sumgiven" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="sumgiven"/>
+		<property name="com.jaspersoft.studio.field.label" value="sumgiven"/>
+	</field>
+	<field name="counttrans" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="counttrans"/>
+		<property name="com.jaspersoft.studio.field.label" value="counttrans"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="148" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<line>
+				<reportElement x="300" y="128" width="1" height="20" uuid="6faae48b-8f05-4261-a392-05a90617084d">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="475" y="128" width="1" height="20" uuid="9dc62d90-3cdf-4f9a-8b50-6107da1be923">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="610" y="128" width="1" height="20" uuid="b7f4fe8b-7cc4-4a84-a4fb-2dea6b63b29f">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<rectangle>
+				<reportElement mode="Transparent" x="45" y="128" width="703" height="20" uuid="183b0ef4-09fc-4dd0-989a-14b10112ba80"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="47" y="129" width="253" height="18" uuid="44283de9-fae8-4f9d-8acc-05a4158823e2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Supplier	]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="301" y="129" width="174" height="18" uuid="b6791441-b542-4c1f-b306-2cbd86197332"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total Volume Requested]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="476" y="129" width="134" height="18" uuid="56c84ced-10bb-44aa-95a9-67ea10f09465"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total Volume Bought	]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="611" y="129" width="136" height="18" uuid="d7fa2044-737d-402e-9aeb-b05816347bae"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Number of Requests]]></text>
+			</staticText>
+			<image>
+				<reportElement x="45" y="7" width="429" height="89" uuid="9a0f73f8-cda2-471c-80a2-a18dd7362cee"/>
+				<imageExpression><![CDATA["C:\\Users\\Administrator\\Downloads\\logo draft 11-High Res.jpg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="17" y="8" width="783" height="37" uuid="1d908d64-00f0-4d04-8a25-59acea82fb84"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Cambria" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NEGROS ORIENTAL I ELECTRIC COOPERATIVE, INC. (NORECO I)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="17" y="31" width="783" height="57" uuid="3be5d422-1073-44ab-a136-bfe57e161a33"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Cambria" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Tinaogan, Bindoy, Negros Oriental
+Contact Nos.: 035-402-5149, 0917-314-1941, 0909-165-6011
+E-mail Address: noreco1@yahoo.com]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="122" y="95" width="572" height="29" uuid="9e9b58f6-9d10-4f78-bf3b-583e0b5c8b27"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Fuel Volume Summary by " + $P{rpttype}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<rectangle>
+				<reportElement mode="Transparent" x="45" y="0" width="703" height="20" uuid="d2ecbf2d-21bc-4519-a2dc-bf1afa3255a7"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</rectangle>
+			<textField>
+				<reportElement x="47" y="0" width="253" height="20" uuid="51212a81-a787-4e25-ae5e-a25358dbdb3c"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="301" y="0" width="168" height="20" uuid="23481fc4-2aae-423b-a59c-9decb1507f12"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{sumreq}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="611" y="0" width="128" height="20" uuid="79ba8568-85d4-4b19-96f8-26e287e1e551"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{counttrans}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="476" y="0" width="124" height="20" uuid="8bdd50c9-7dad-4f50-bd5d-82750cae36bd"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{sumgiven}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="300" y="0" width="1" height="20" uuid="d3367d1d-0932-455b-80c1-3ace60d54fb6">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="475" y="0" width="1" height="20" uuid="8b81ce48-3f75-413b-9aac-24a1979e196e">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="610" y="0" width="1" height="20" uuid="46f3b6a9-5253-4fcb-a797-87dc6d9e0a7a">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="44" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<staticText>
+				<reportElement x="10" y="14" width="783" height="27" uuid="d55f4338-2bee-42cf-80b7-d437b0de80c9"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Cambria" size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Coverage Area: Canla-on City, Vallehermoso, Guihulngan City, La Libertad, Jimalalud, Tayasan, Ayungon, Bindoy, Manjuyod, Bais City and Mabinay]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

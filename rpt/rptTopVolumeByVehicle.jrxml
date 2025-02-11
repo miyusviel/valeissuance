@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptVolumeByVehicle" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="2d13fa32-0692-48ed-9c22-7f8276d4fdbb">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MySQL - JDBC"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="startdate" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="enddate" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+    @rank := @rank + 1 AS Rank,
+    subquery.dept_abbreviation,
+    subquery.description,
+    subquery.make,
+    subquery.`type`,
+    subquery.volumeconsumed,
+    subquery.TotalAmt
+FROM (
+    SELECT
+        d.dept_abbreviation,
+        v.description,
+        v.make,
+        f.`type`,
+        COALESCE(SUM(t.volgiven), 0) AS volumeconsumed,
+        COALESCE(SUM(t.trans_amt), 0) AS TotalAmt
+    FROM vehicle v
+    INNER JOIN department d ON d.dept_id = v.dept_id
+    INNER JOIN transaction t ON t.vehicle_id = v.vehicle_id
+    INNER JOIN fuel f ON f.fuel_id = v.fuel_id
+    WHERE t.createddate BETWEEN  $P{startdate} AND $P{enddate} and status_id=33
+    GROUP BY d.dept_abbreviation, v.description, v.make, f.`type`
+    HAVING volumeconsumed > 0
+    ORDER BY volumeconsumed DESC, TotalAmt DESC
+) AS subquery,
+(SELECT @rank := 0) AS r
+ORDER BY volumeconsumed DESC, TotalAmt DESC;]]>
+	</queryString>
+	<field name="Rank" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="dept_abbreviation" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="description" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="description"/>
+		<property name="com.jaspersoft.studio.field.label" value="description"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="vehicle"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="make" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="type" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="volumeconsumed" class="java.math.BigDecimal"/>
+	<field name="TotalAmt" class="java.math.BigDecimal"/>
+	<variable name="TotalAmt_1" class="java.math.BigDecimal" resetType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$F{TotalAmt}]]></variableExpression>
+	</variable>
+	<variable name="volumeconsumed_1" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{volumeconsumed}]]></variableExpression>
+	</variable>
+	<variable name="volumeconsumed_2" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{volumeconsumed}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="148" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="941c3276-e65c-4dbf-9f12-7465d1dd5410" x="0" y="8" width="555" height="37"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Cambria" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NEGROS ORIENTAL I ELECTRIC COOPERATIVE, INC. (NORECO I)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="4ffaa023-29a1-4fa8-b573-18db848adb90" x="0" y="31" width="555" height="57"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Cambria" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Tinaogan, Bindoy, Negros Oriental
+Contact Nos.: 035-402-5149,  0909-165-6011
+E-mail Address: noreco1@yahoo.com]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="6faae48b-8f05-4261-a392-05a90617084d" x="190" y="128" width="1" height="20">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement uuid="9dc62d90-3cdf-4f9a-8b50-6107da1be923" x="281" y="128" width="1" height="20">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement uuid="b7f4fe8b-7cc4-4a84-a4fb-2dea6b63b29f" x="363" y="128" width="1" height="20">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<rectangle>
+				<reportElement uuid="183b0ef4-09fc-4dd0-989a-14b10112ba80" mode="Transparent" x="0" y="128" width="555" height="20"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement uuid="44283de9-fae8-4f9d-8acc-05a4158823e2" mode="Transparent" x="81" y="128" width="110" height="18" backcolor="#FFFFFF"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Vehicle]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="b6791441-b542-4c1f-b306-2cbd86197332" x="191" y="128" width="90" height="18"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Make]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="56c84ced-10bb-44aa-95a9-67ea10f09465" x="282" y="130" width="81" height="18"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Gas Type]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="d7fa2044-737d-402e-9aeb-b05816347bae" x="435" y="130" width="80" height="18"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total Amount]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="84b2fdfb-7a94-4f8b-b1c3-bbcf9e2342dd" mode="Transparent" x="0" y="128" width="80" height="18" backcolor="#FFFFFF"/>
+				<box>
+					<leftPen lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Department]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="78099589-f189-45ba-8ee4-370cb03b6264" x="364" y="130" width="70" height="18"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total Volume Used]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="697d18f9-310b-4ccc-a41e-8199cbf428c0" x="434" y="128" width="1" height="20">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement uuid="cd08c85c-276f-447c-94ad-4156e2d24bfe" x="80" y="128" width="1" height="20">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement uuid="35e93ab6-0eac-4655-8aea-4c142568202c" x="517" y="130" width="36" height="18"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Rank]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="24859434-1715-4de8-9725-0513959a6a78" x="516" y="128" width="1" height="20">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement uuid="93f31c87-d76f-4cb1-ad9b-485566eb9951" x="-2" y="88" width="555" height="37"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Cambria" size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Ranked Analysis of Vehicle Fuel Usage and Costs Across Departments]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<rectangle>
+				<reportElement uuid="d2ecbf2d-21bc-4519-a2dc-bf1afa3255a7" mode="Transparent" x="0" y="0" width="555" height="20"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</rectangle>
+			<line>
+				<reportElement uuid="d3367d1d-0932-455b-80c1-3ace60d54fb6" x="190" y="0" width="1" height="20">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement uuid="8b81ce48-3f75-413b-9aac-24a1979e196e" x="281" y="0" width="1" height="20">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement uuid="46f3b6a9-5253-4fcb-a797-87dc6d9e0a7a" x="363" y="0" width="1" height="20">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement uuid="3bae2efd-15f3-4543-905f-12c325c77867" x="80" y="0" width="1" height="20">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement uuid="1f0a7485-ef6f-4225-be82-78d2677885df" x="434" y="0" width="1" height="20">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement uuid="7e06c771-9ee6-4b6c-8b01-2e7d905f7693" x="0" y="0" width="80" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{dept_abbreviation}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="a00af237-5eef-4e6f-ac6b-04a0cbf76414" x="81" y="0" width="110" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{description}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="8a41486d-7875-4bfd-9f40-42bf418966a4" x="191" y="0" width="90" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{make}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="3e77d8b7-b025-48ba-bca5-dba4cbd50217" x="282" y="0" width="81" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{type}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement uuid="4b85dc3d-cc06-4088-87f3-06fd41241f89" x="364" y="0" width="70" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{volumeconsumed}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="03619fd8-ff66-47e6-b94f-09cbc0a663a8" x="435" y="0" width="80" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{TotalAmt}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0">
+				<reportElement uuid="ca08418a-e00f-46a5-ad02-9c589a660048" x="518" y="0" width="35" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{Rank}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="c5d02b50-3e58-4f2d-8ec2-10bf29dd094f" x="516" y="0" width="1" height="20">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="20" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="44" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<staticText>
+				<reportElement uuid="8d0cce9c-05f6-4453-859a-28ce73605b9f" x="0" y="14" width="555" height="27"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Cambria" size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Coverage Area: Canla-on City, Vallehermoso, Guihulngan City, La Libertad, Jimalalud, Tayasan, Ayungon, Bindoy, Manjuyod, Bais City and Mabinay]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="23" splitType="Stretch">
+			<textField pattern="#,##0.00">
+				<reportElement uuid="d2d97648-5261-47e9-9a3d-2b4c27179ab4" x="438" y="0" width="77" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$V{TotalAmt_1}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="5cfb7aff-75df-4495-b67d-c94dc5bb818a" x="0" y="0" width="68" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+			<textField pattern="#,##0">
+				<reportElement uuid="3342615f-44d3-430b-b502-c5be6173be44" x="364" y="0" width="71" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$V{volumeconsumed_2}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

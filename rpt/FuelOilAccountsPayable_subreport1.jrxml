@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="FuelOilAccountsPayable_subreport1" language="groovy" pageWidth="572" pageHeight="752" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="60c6dd38-27fd-47b2-8039-fafdadda8d9e">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="d1" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="d2" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select code,coalesce(sum(t.trans_amt),0)  as GrossAmt from accounts a inner join
+transaction t on t.acct_id=a.acct_id
+WHERE t.createddate BETWEEN  $P{d1} AND $P{d2} and status_id=33
+group by code;]]>
+	</queryString>
+	<field name="code" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="GrossAmt" class="java.math.BigDecimal"/>
+	<variable name="GrossAmt_1" class="java.math.BigDecimal" resetType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$F{GrossAmt}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="21">
+			<staticText>
+				<reportElement uuid="8d002024-c3d3-416f-b2f7-0089c189d7e1" x="0" y="0" width="100" height="20"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RECAP:]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="6635043f-81c4-4eae-a5bf-bad764187b31" x="0" y="20" width="380" height="1"/>
+			</line>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="abe63b04-50c7-451e-bbbc-ca21d03c7ed2" x="0" y="0" width="239" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Code]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="c8d5f22d-16b3-4c21-b6b6-f34145ae9e14" x="239" y="0" width="131" height="20"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Amount]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement uuid="3b157e99-379c-4747-a741-bcb6136f01fa" x="0" y="0" width="239" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{code}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="e714d005-3d64-4632-a153-97c6a254b510" x="239" y="0" width="131" height="20"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{GrossAmt}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="771c3a70-f585-4547-b7e7-7de42f95e0bd" x="0" y="0" width="380" height="1"/>
+			</line>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="24">
+			<staticText>
+				<reportElement uuid="a0fe0346-5d15-475d-bc76-7a0a761225e7" x="139" y="0" width="100" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Grand Total]]></text>
+			</staticText>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="a6f71867-a147-4a42-b47b-caf0ea758153" x="239" y="0" width="131" height="20"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{GrossAmt_1}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="ea379401-5dd8-405b-bd26-97b6b02dba58" x="0" y="0" width="380" height="1"/>
+			</line>
+		</band>
+	</columnFooter>
+</jasperReport>

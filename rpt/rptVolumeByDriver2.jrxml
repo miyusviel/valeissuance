@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptVolumeByDriver" language="groovy" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4231074d-7be3-4580-a502-e5601dcc7797">
+	<property name="ireport.zoom" value="1.610510000000001"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MySQL - JDBC"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="rpttype" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT t.emp_id, CONCAT(e.first_name, ' ', e.last_name) AS driver, SUM(t.volrequested) AS sumreq, SUM(t.volgiven) AS sumgiven, COUNT(t.trans_id) AS counttrans
+FROM transaction t
+INNER JOIN vehicle v ON v.vehicle_id = t.vehicle_id
+INNER JOIN fuel f ON f.fuel_id = t.fuel_id
+INNER JOIN accounts a ON a.acct_id = t.acct_id
+INNER JOIN employee e ON e.emp_id = t.emp_id
+INNER JOIN suppliers s ON s.supplier_id = t.supplier_id
+INNER JOIN destination d ON d.town_id = t.town_id
+INNER JOIN user u ON u.user_id = t.user_id
+INNER JOIN document_status ds ON ds.doc_status_id = t.status_id
+GROUP BY t.emp_id, driver]]>
+	</queryString>
+	<field name="emp_id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="driver" class="java.lang.String"/>
+	<field name="sumreq" class="java.math.BigDecimal"/>
+	<field name="sumgiven" class="java.math.BigDecimal"/>
+	<field name="counttrans" class="java.lang.Long"/>
+	<group name="emp_id">
+		<groupExpression><![CDATA[$F{emp_id}]]></groupExpression>
+	</group>
+	<group name="driver">
+		<groupExpression><![CDATA[$F{driver}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="98" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="ebc9b698-1883-4915-806f-8704f28d3073" x="17" y="8" width="572" height="26"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NEGROS ORIENTAL I ELECTRIC COOPERATIVE, INC.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="b71ed930-1e08-4e3a-8a7f-bb145e593c78" x="17" y="26" width="572" height="26"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Bindoy, Negros Oriental]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="59e932ab-8d55-47e2-a478-6a3bffa99468" x="7" y="49" width="572" height="14"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Volume by " + $P{rpttype} + " Summary"]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="919ffbbf-c6ad-4a82-a6c0-f46e93fd7a0f" x="201" y="77" width="1" height="20"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement uuid="0b68239b-2531-48fd-b040-794199765d2a" x="326" y="77" width="1" height="20"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement uuid="e9cbe8be-be3b-4b33-9320-8572f32c26d3" x="450" y="77" width="1" height="20"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<rectangle>
+				<reportElement uuid="51a5326f-2f64-4649-8e7c-fe7375b4f9b1" mode="Transparent" x="18" y="77" width="538" height="20"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement uuid="79480053-9b22-4057-b739-ea6340a579fc" x="20" y="78" width="181" height="18"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Driver]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="2b5dd53e-9ce2-4370-a132-8382251a2c5c" x="204" y="78" width="119" height="18"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total Volume Requested]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="fd3b46bb-31f5-4da9-b320-9e694a88ee5f" x="329" y="78" width="119" height="18"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total Volume Issued]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="b4e9a1b6-8ee2-48f6-87ee-a46ccb6fcfad" x="452" y="78" width="103" height="18"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Number of Requests]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<line>
+				<reportElement uuid="baefbebe-ba90-4d6c-b660-7c24be96ae33" x="201" y="0" width="1" height="20"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement uuid="662ba073-8ed1-4b69-9494-22d21850efda" x="326" y="0" width="1" height="20"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement uuid="d011936d-a8ca-4692-9ae9-21f629cdafc6" x="450" y="0" width="1" height="20"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<rectangle>
+				<reportElement uuid="73c75f4f-90c9-4dd0-b494-d8ef92e15591" mode="Transparent" x="18" y="0" width="538" height="20"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</rectangle>
+			<textField>
+				<reportElement uuid="e9b8df08-4686-4c05-bc5e-99d80f8b7c06" x="20" y="0" width="181" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{driver}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="b1bfa745-87db-4765-91ae-ab08307c6360" x="204" y="0" width="119" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{sumreq}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="dd927de1-bddd-4870-8c72-e82f8b4a2c13" x="452" y="0" width="103" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{counttrans}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="3da96547-ae29-4a4d-8235-af739db18eb8" x="329" y="0" width="119" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{sumgiven}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

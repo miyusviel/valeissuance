@@ -41,8 +41,11 @@ public class DBConn {
             String database = properties.getProperty("database");
 
             url = "jdbc:mysql://" + host + ":" + port + "/" + database;
-            user = "root";
-            password = "";
+//            user = "root";
+//            password = "Master2007@@@";
+            user = "noreco1_db_user";
+            password = "It'sMoreFunInBindoy";
+            
             conn = DriverManager.getConnection(url, user, password);
             
         } catch (SQLException e) {
